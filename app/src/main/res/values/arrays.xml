@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="redirect_options">
+        <item>Home page</item>
+        <item>Nutrition management</item>
+        <item>Weight management</item>
+        <item>Fitness management</item>
+    </string-array>
+</resources>
