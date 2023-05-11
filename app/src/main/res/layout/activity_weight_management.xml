@@ -19,4 +19,107 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="60dp"
+        android:paddingHorizontal="16dp"
+>
+        <LinearLayout
+            android:id="@+id/currentWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/currentWeightTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Weight:"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/currentWeightValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/goalWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/currentWeight" >
+            <TextView
+                android:id="@+id/goalWeightTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goal Weight:"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/goalWeightValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/weightToGoalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/goalWeight" />
+
+        <LinearLayout
+            android:id="@+id/logWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_below="@id/weightToGoalTextView">
+            <TextView
+                android:id="@+id/logWeightTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Weight:"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+             />
+            <TextView
+                android:id="@+id/lastLogged"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp"
+            />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/weightInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:hint="Enter weight"
+            android:layout_below="@id/logWeight" />
+
+        <Button
+            android:id="@+id/logButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log"
+            android:layout_below="@id/weightInputEditText" />
+
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

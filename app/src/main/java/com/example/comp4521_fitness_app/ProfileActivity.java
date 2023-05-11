@@ -17,6 +17,7 @@ import com.example.comp4521_fitness_app.R;
 import com.example.comp4521_fitness_app.data.CurrentUser;
 import com.example.comp4521_fitness_app.database.weightLog.WeightLogDBHelper;
 import com.example.comp4521_fitness_app.database.weightLog.WeightLogData;
+import com.example.comp4521_fitness_app.utilities.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -132,11 +133,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         float goalWeight = Float.parseFloat(goalWeightStr);
 
         // Get the current date and time
-        Date now = new Date();
-
-        // Format the date and time as a string
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateCreated = format.format(now);
+        String dateCreated = DateUtils.getDateTime();
 
         // Save data to database
         WeightLogData data = new WeightLogData(-1, username, height, weightGoalType, actualWeight, goalWeight, dateCreated);
