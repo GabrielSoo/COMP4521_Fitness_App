@@ -9,18 +9,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.comp4521_fitness_app.R;
+import com.example.comp4521_fitness_app.data.CurrentUser;
+import com.example.comp4521_fitness_app.database.DBHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText username, password;
     Button btnlogin;
     DBHelper DB;
+    // declare the CurrentUser instance
+    private CurrentUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // initialize the CurrentUser instance
+        currentUser = CurrentUser.getInstance();
 
         username = (EditText) findViewById(R.id.username1);
         password = (EditText) findViewById(R.id.password1);
@@ -40,6 +46,9 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     Boolean checkUserPass = DB.checkUsernamePassword(user, pass);
                     if(checkUserPass == true) {
+                        // set the current user's username
+                        currentUser.setUsername(user);
+
                         Toast.makeText(LoginActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(intent);
