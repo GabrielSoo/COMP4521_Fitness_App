@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="breakfast1_calories">256</integer>
+    <integer name="breakfast1_carbs">39</integer>
+    <integer name="breakfast1_proteins">5</integer>
+    <integer name="breakfast1_fats">10</integer>
+
+    <string name="breakfast2_name">Instant noodle</string>
+    <integer name="breakfast2_calories">380</integer>
+    <integer name="breakfast2_carbs">52</integer>
+    <integer name="breakfast2_proteins">14</integer>
+    <integer name="breakfast2_fats">8</integer>
+
+    <string name="breakfast3_name">Macaroni soup</string>
+    <integer name="breakfast3_calories">290</integer>
+    <integer name="breakfast3_carbs">61</integer>
+    <integer name="breakfast3_proteins">7</integer>
+    <integer name="breakfast3_fats">9</integer>
+
+    <string name="breakfast4_name">Omelette toast</string>
+    <integer name="breakfast4_calories">324</integer>
+    <integer name="breakfast4_carbs">29</integer>
+    <integer name="breakfast4_proteins">9</integer>
+    <integer name="breakfast4_fats">37</integer>
+</resources>

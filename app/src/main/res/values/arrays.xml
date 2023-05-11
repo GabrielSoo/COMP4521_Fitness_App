@@ -5,5 +5,10 @@
         <item>Nutrition management</item>
         <item>Weight management</item>
         <item>Fitness management</item>
+        <item>Profile</item>
+    </string-array>
+    <string-array name="goal_type_options">
+        <item>Weight loss</item>
+        <item>Muscle Growth</item>
     </string-array>
 </resources>

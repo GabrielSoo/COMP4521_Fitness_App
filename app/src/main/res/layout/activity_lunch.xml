@@ -5,167 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NutritionManagementActivity">
+    tools:context=".nutritionActivity.LunchActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Spinner
-            android:id="@+id/spinner_redirect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:entries="@array/redirect_options"
-            android:prompt="@string/redirect_prompt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.185"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_daily_calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="Daily calories:"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinner_redirect" />
-
-        <TextView
-            android:id="@+id/text_daily_calories_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_daily_calories" />
-
-        <TextView
-            android:id="@+id/text_goal_calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="16dp"
-            android:text="Your Goal:"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinner_redirect" />
-
-        <TextView
-            android:id="@+id/text_goal_calories_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="316dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_goal_calories" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:max="100"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_daily_calories_value"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"/>
-
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/lunchItem1"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ProgressBar
-                android:id="@+id/carbs_progress_bar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/circle_progress_bar"/>
-
-            <TextView
-                android:id="@+id/carbs_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="155dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ProgressBar
-                android:id="@+id/protein_progress_bar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/circle_progress_bar"/>
-
-            <TextView
-                android:id="@+id/protein_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="278dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ProgressBar
-                android:id="@+id/fats_progress_bar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/circle_progress_bar"/>
-
-            <TextView
-                android:id="@+id/fats_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="349dp"
-            android:layout_height="175dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="150dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/lunchImageView1"
                 android:layout_width="99dp"
                 android:layout_height="94dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -173,11 +31,12 @@
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
 
             <TextView
-                android:id="@+id/breakfastTextView"
+                android:id="@+id/lunchTextView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"
-                android:text="Breakfast"
+                android:layout_marginTop="5dp"
+                android:text="Barbecue Pork"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -185,52 +44,58 @@
                 app:layout_constraintTop_toTopOf="@id/imageView1" />
 
             <Button
-                android:id="@+id/breakfastButton"
+                android:id="@+id/lunchButton1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+ Add Breakfast"
-                android:layout_marginTop="100dp" />
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
 
             <TextView
-                android:id="@+id/breakfastCalories"
+                android:id="@+id/lunch1Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"
                 android:layout_marginTop="50dp"
+                android:text="606kCal"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/breakfastCarbs"
+                android:id="@+id/lunch1Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="50dp"
+                android:text="91g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/breakfastProteins"
+                android:id="@+id/lunch1Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="250dp"
                 android:layout_marginTop="50dp"
+                android:text="16g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/breakfastFats"
+                android:id="@+id/lunch1Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
+                android:layout_marginStart="300dp"
                 android:layout_marginTop="50dp"
+                android:text="24g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toEndOf="@id/imageView1"
@@ -239,15 +104,18 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="349dp"
-            android:layout_height="175dp"
+            android:id="@+id/lunchItem2"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="330dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
+            app:layout_constraintTop_toBottomOf="@+id/lunchItem1">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/lunchImageView2"
                 android:layout_width="99dp"
                 android:layout_height="94dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -255,81 +123,91 @@
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
 
             <TextView
-                android:id="@+id/lunchTextView"
+                android:id="@+id/lunchTextView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"
-                android:text="Lunch"
+                android:layout_marginTop="5dp"
+                android:text="Fried Rice"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toTopOf="@id/imageView2" />
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toTopOf="@id/imageView1" />
 
             <Button
-                android:id="@+id/lunchButton"
+                android:id="@+id/lunchButton2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+ Add Lunch"
-                android:layout_marginTop="100dp" />
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
 
             <TextView
-                android:id="@+id/lunchCalories"
+                android:id="@+id/lunch2Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"
                 android:layout_marginTop="50dp"
+                android:text="680kCal"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/lunchCarbs"
+                android:id="@+id/lunch2Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="50dp"
+                android:text="90g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/lunchProteins"
+                android:id="@+id/lunch2Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="250dp"
                 android:layout_marginTop="50dp"
+                android:text="25g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/lunchFats"
+                android:id="@+id/lunch2Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="310dp"
                 android:layout_marginTop="50dp"
+                android:text="25g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="349dp"
-            android:layout_height="175dp"
+            android:id="@+id/lunchItem3"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="519dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
+            app:layout_constraintTop_toBottomOf="@+id/lunchItem2">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/lunchImageView3"
                 android:layout_width="99dp"
                 android:layout_height="94dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -337,76 +215,169 @@
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
 
             <TextView
-                android:id="@+id/dinnerTextView"
+                android:id="@+id/lunchTextView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"
-                android:text="Dinner"
+                android:layout_marginTop="5dp"
+                android:text="Baked Pork Rice"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toTopOf="@id/imageView3" />
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toTopOf="@id/imageView1" />
 
             <Button
-                android:id="@+id/dinnerButton"
+                android:id="@+id/lunchButton3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+ Add Dinner"
-                android:layout_marginTop="100dp" />
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
 
             <TextView
-                android:id="@+id/dinnerCalories"
+                android:id="@+id/lunch3Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="115dp"
                 android:layout_marginTop="50dp"
+                android:text="760kCal"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/dinnerCarbs"
+                android:id="@+id/lunch3Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
                 android:layout_marginTop="50dp"
+                android:text="80g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/dinnerProteins"
+                android:id="@+id/lunch3Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="250dp"
                 android:layout_marginTop="50dp"
+                android:text="35g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
-                android:id="@+id/dinnerFats"
+                android:id="@+id/lunch3Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="310dp"
                 android:layout_marginTop="50dp"
+                android:text="30g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/lunchItem4"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lunchItem3">
+
+            <ImageView
+                android:id="@+id/lunchImageView4"
+                android:layout_width="99dp"
+                android:layout_height="94dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+            <TextView
+                android:id="@+id/lunchTextView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="5dp"
+                android:text="Fried Noodles"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toTopOf="@id/imageView1" />
+
+            <Button
+                android:id="@+id/lunchButton4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
+
+            <TextView
+                android:id="@+id/lunch4Calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="50dp"
+                android:text="693kCal"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
+
+            <TextView
+                android:id="@+id/lunch4Carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="50dp"
+                android:text="63g\nCarb"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
+
+            <TextView
+                android:id="@+id/lunch4Proteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="250dp"
+                android:layout_marginTop="50dp"
+                android:text="37g\nProtein"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
+
+            <TextView
+                android:id="@+id/lunch4Fats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="310dp"
+                android:layout_marginTop="50dp"
+                android:text="27g\nFat"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/imageView1"
+                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-
-
-
-
-
-
