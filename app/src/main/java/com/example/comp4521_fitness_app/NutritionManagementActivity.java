@@ -48,6 +48,10 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
                 intent = new Intent(this, FitnessManagementActivity.class);
                 startActivity(intent);
                 break;
+            case "Profile":
+                intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 

@@ -48,6 +48,10 @@ public class FitnessManagementActivity extends AppCompatActivity implements Adap
                 intent = new Intent(this, WeightManagementActivity.class);
                 startActivity(intent);
                 break;
+            case "Profile":
+                intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 

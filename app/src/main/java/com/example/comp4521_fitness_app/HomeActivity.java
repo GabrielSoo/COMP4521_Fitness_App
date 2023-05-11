@@ -41,6 +41,10 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 intent = new Intent(this, FitnessManagementActivity.class);
                 startActivity(intent);
                 break;
+            case "Profile":
+                intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
