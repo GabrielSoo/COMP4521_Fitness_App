@@ -17,6 +17,7 @@ import com.example.comp4521_fitness_app.R;
 import com.example.comp4521_fitness_app.data.CurrentUser;
 import com.example.comp4521_fitness_app.database.weightLog.WeightLogDBHelper;
 import com.example.comp4521_fitness_app.database.weightLog.WeightLogData;
+import com.example.comp4521_fitness_app.utilities.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -72,6 +73,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             } else {
                 goalTypeSpinner.setSelection(0);
             }
+        } else {
+            mSpinnerRedirect.setVisibility(View.GONE);
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -132,18 +135,21 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         float goalWeight = Float.parseFloat(goalWeightStr);
 
         // Get the current date and time
-        Date now = new Date();
-
-        // Format the date and time as a string
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateCreated = format.format(now);
+        String dateCreated = DateUtils.getDateTime();
 
         // Save data to database
         WeightLogData data = new WeightLogData(-1, username, height, weightGoalType, actualWeight, goalWeight, dateCreated);
-        if (data.actualWeight == latestData.actualWeight && data.goalWeight == latestData.goalWeight && data.weightGoalType.equals(latestData.weightGoalType) && data.height == latestData.height) {
-            return;
+        if (latestData != null){
+            if (data.actualWeight == latestData.actualWeight && data.goalWeight == latestData.goalWeight && data.weightGoalType.equals(latestData.weightGoalType) && data.height == latestData.height) {
+                return;
+            }
         }
+
         dbHelper.insertWeightLogData(data);
+
+        if (mSpinnerRedirect.getVisibility() == View.GONE) {
+            mSpinnerRedirect.setVisibility(View.VISIBLE);
+        }
 
         // Show success message
         Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
