@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WeightLogDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "weightlog.db";
@@ -80,4 +83,32 @@ public class WeightLogDBHelper extends SQLiteOpenHelper {
             return null;
         }
     }
+    public List<WeightLogData> getAllWeightLogData(String username) {
+        List<WeightLogData> weightLogDataList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, new String[]{COL_ID, COL_HEIGHT, COL_WEIGHT_GOAL_TYPE, COL_ACTUAL_WEIGHT, COL_GOAL_WEIGHT, COL_DATE_CREATED},
+                COL_USERNAME + "=?", new String[]{username}, null, null, COL_DATE_CREATED + " ASC");
+
+        if (cursor.moveToFirst()) {
+            do {
+                WeightLogData weightLogData = new WeightLogData(
+                        cursor.getInt(0),   // weightLogId
+                        username,
+                        cursor.getFloat(1), // height
+                        cursor.getString(2), // weightGoalType
+                        cursor.getFloat(3), // actualWeight
+                        cursor.getFloat(4), // goalWeight
+                        cursor.getString(5) // dateCreated
+                );
+                weightLogDataList.add(weightLogData);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return weightLogDataList;
+    }
+
 }

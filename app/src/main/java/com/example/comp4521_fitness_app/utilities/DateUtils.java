@@ -40,5 +40,18 @@ public class DateUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(now);
     }
+
+    public static String getDateLabel(String dateCreated) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat labelFormat = new SimpleDateFormat("dd/MM");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dateCreated);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return labelFormat.format(date);
+    }
 }
 
