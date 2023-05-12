@@ -20,6 +20,7 @@ import com.example.comp4521_fitness_app.database.weightLog.WeightLogDBHelper;
 import com.example.comp4521_fitness_app.database.weightLog.WeightLogData;
 import com.example.comp4521_fitness_app.utilities.DateAxisValueFormatter;
 import com.example.comp4521_fitness_app.utilities.DateUtils;
+import com.example.comp4521_fitness_app.utilities.Notification;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,17 +28,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.notificationman.library.NotificationMan;
-import com.notificationman.library.config.NotificationManChannelConfig;
-import com.notificationman.library.model.NotificationImportanceLevel;
-import com.notificationman.library.model.NotificationTypes;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class WeightManagementActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -56,8 +52,7 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
     private WeightLogData latestData;
     private String username;
     private WeightLogDBHelper dbHelper;
-
-    NotificationMan.Builder notifications;
+    Notification notification;
 
     private float getMinWeight(List<Entry> entries) {
         float minWeight = Float.MAX_VALUE;
@@ -127,24 +122,14 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
         String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
         int weightManagementIndex = Arrays.asList(redirectOptions).indexOf("Weight management");
         mSpinnerRedirect.setSelection(weightManagementIndex);
-        NotificationManChannelConfig config = new NotificationManChannelConfig(
-                null,
-                null,
-                NotificationImportanceLevel.HIGH,
-                true
-                );
 
-        long oneWeekIntervalInMillis = TimeUnit.DAYS.toSeconds(7);
-
-        notifications = new NotificationMan.Builder(
-                this,
-                "com.example.comp4521_fitness_app.WeightManagementActivity",
-                "Weight Log Reminder",
-                "Please log your weight.",
-                "",
-                oneWeekIntervalInMillis,
-                NotificationTypes.TEXT.getType(),
-                config);
+        notification = new Notification(
+                this,  // Context
+                "WeightManagementActivity",  // Activity
+                "Weight Log Reminder",  // Title
+                "Please log your weight.",  // Description
+                7  // Interval (in days)
+        );
 
         updateUI();
         drawGraph();
@@ -227,7 +212,7 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
         Toast.makeText(this, "Weight logged successfully", Toast.LENGTH_SHORT).show();
         updateUI();
         drawGraph();
-        notifications.fire();
+        notification.fire();
     }
 
     public void drawGraph() {
