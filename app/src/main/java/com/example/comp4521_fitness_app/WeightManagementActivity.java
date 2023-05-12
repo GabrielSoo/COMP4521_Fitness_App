@@ -231,60 +231,62 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
             counter++;
         }
 
-        // Create a LineDataSet with the weight entries
-        LineDataSet dataSet = new LineDataSet(entries, "Weight Over Time");
+        if (weightLogDataList.size() > 1) {
+            // Create a LineDataSet with the weight entries
+            LineDataSet dataSet = new LineDataSet(entries, "Weight Over Time");
 
-        // Customize the appearance of the line chart
-        dataSet.setColor(Color.BLUE);
-        dataSet.setCircleColor(Color.BLUE);
-        dataSet.setDrawValues(false);
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            // Customize the appearance of the line chart
+            dataSet.setColor(Color.BLUE);
+            dataSet.setCircleColor(Color.BLUE);
+            dataSet.setDrawValues(false);
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        // Create a LineData object with the LineDataSet
-        LineData lineData = new LineData(dataSet);
+            // Create a LineData object with the LineDataSet
+            LineData lineData = new LineData(dataSet);
 
-        // Set the LineData to the LineChart
-        lineChart.setData(lineData);
+            // Set the LineData to the LineChart
+            lineChart.setData(lineData);
 
-        // Target Weight
-        LimitLine targetLine = new LimitLine(targetWeight, "Target");
-        targetLine.setLineColor(Color.RED); // Customize the line color
-        targetLine.setLineWidth(2f); // Customize the line width
-        targetLine.setTextColor(Color.RED); // Customize the label text color
-        targetLine.setTextSize(12f); // Customize the label text size
-        targetLine.enableDashedLine(10f, 10f, 0f); // Enable dashed line (optional)
+            // Target Weight
+            LimitLine targetLine = new LimitLine(targetWeight, "Target");
+            targetLine.setLineColor(Color.RED); // Customize the line color
+            targetLine.setLineWidth(2f); // Customize the line width
+            targetLine.setTextColor(Color.RED); // Customize the label text color
+            targetLine.setTextSize(12f); // Customize the label text size
+            targetLine.enableDashedLine(10f, 10f, 0f); // Enable dashed line (optional)
 
 
-        // Configure the X-axis
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new DateAxisValueFormatter(dates));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f);
-        xAxis.setLabelCount(entries.size());
+            // Configure the X-axis
+            XAxis xAxis = lineChart.getXAxis();
+            xAxis.setValueFormatter(new DateAxisValueFormatter(dates));
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setGranularity(1f);
+            xAxis.setLabelCount(entries.size());
 
-        int maxVisibleDataPoints = 10; // Maximum number of visible data points on the x-axis
-        int numDataPoints = entries.size();
-        int visibleRange = Math.min(numDataPoints, maxVisibleDataPoints);
+            int maxVisibleDataPoints = 10; // Maximum number of visible data points on the x-axis
+            int numDataPoints = entries.size();
+            int visibleRange = Math.min(numDataPoints, maxVisibleDataPoints);
 
-        lineChart.setVisibleXRangeMaximum(visibleRange);
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(true);
-        lineChart.setVisibleXRangeMinimum(1); // Set the minimum visible range
-        lineChart.moveViewToX(numDataPoints - visibleRange); // Move the view to the end of the data
+            lineChart.setVisibleXRangeMaximum(visibleRange);
+            lineChart.setDragEnabled(true);
+            lineChart.setScaleEnabled(true);
+            lineChart.setVisibleXRangeMinimum(1); // Set the minimum visible range
+            lineChart.moveViewToX(numDataPoints - visibleRange); // Move the view to the end of the data
 
-        // Configure the Y-axis
-        YAxis yAxisLeft = lineChart.getAxisLeft();
-        yAxisLeft.setAxisMinimum(getMinWeight(entries) - 5f);
-        yAxisLeft.setAxisMaximum(getMaxWeight(entries) + 5f);
-        yAxisLeft.addLimitLine(targetLine);
+            // Configure the Y-axis
+            YAxis yAxisLeft = lineChart.getAxisLeft();
+            yAxisLeft.setAxisMinimum(getMinWeight(entries) - 5f);
+            yAxisLeft.setAxisMaximum(getMaxWeight(entries) + 5f);
+            yAxisLeft.addLimitLine(targetLine);
 
-        YAxis yAxisRight = lineChart.getAxisRight();
-        yAxisRight.setEnabled(false);
+            YAxis yAxisRight = lineChart.getAxisRight();
+            yAxisRight.setEnabled(false);
 
-        // Remove the legend
-        lineChart.getLegend().setEnabled(false);
+            // Remove the legend
+            lineChart.getLegend().setEnabled(false);
 
-        // Refresh the chart
-        lineChart.invalidate();
+            // Refresh the chart
+            lineChart.invalidate();
+        }
     }
 }

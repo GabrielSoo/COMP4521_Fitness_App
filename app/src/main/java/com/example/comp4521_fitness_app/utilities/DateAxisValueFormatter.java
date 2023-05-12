@@ -18,9 +18,9 @@ public class DateAxisValueFormatter extends ValueFormatter {
     @Override
     public String getAxisLabel(float value, AxisBase axis) {
         int index = (int) value;
-        if (dates.size() > index){
+        if (dates.size() > 0 && dates.size() > index){
             return dates.get(index);
         }
-        return String.valueOf(index);
+        return "";
     }
 }

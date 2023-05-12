@@ -73,6 +73,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             } else {
                 goalTypeSpinner.setSelection(0);
             }
+        } else {
+            mSpinnerRedirect.setVisibility(View.GONE);
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -137,10 +139,17 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
         // Save data to database
         WeightLogData data = new WeightLogData(-1, username, height, weightGoalType, actualWeight, goalWeight, dateCreated);
-        if (data.actualWeight == latestData.actualWeight && data.goalWeight == latestData.goalWeight && data.weightGoalType.equals(latestData.weightGoalType) && data.height == latestData.height) {
-            return;
+        if (latestData != null){
+            if (data.actualWeight == latestData.actualWeight && data.goalWeight == latestData.goalWeight && data.weightGoalType.equals(latestData.weightGoalType) && data.height == latestData.height) {
+                return;
+            }
         }
+
         dbHelper.insertWeightLogData(data);
+
+        if (mSpinnerRedirect.getVisibility() == View.GONE) {
+            mSpinnerRedirect.setVisibility(View.VISIBLE);
+        }
 
         // Show success message
         Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
