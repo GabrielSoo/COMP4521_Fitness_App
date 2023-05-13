@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.comp4521_fitness_app.FitnessActivities.AddRoutineActivity;
 import com.example.comp4521_fitness_app.R;
 import com.example.comp4521_fitness_app.database.fitnessLog.ExerciseData;
 import com.example.comp4521_fitness_app.database.fitnessLog.FitnessLogDBHelper;
 import com.example.comp4521_fitness_app.database.fitnessLog.RoutineData;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +31,7 @@ public class FitnessManagementActivity extends AppCompatActivity implements Adap
     private FitnessLogDBHelper dbHelper;
     private ListView listViewRoutines;
     private ArrayAdapter<String> routinesAdapter;
+    private FloatingActionButton addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +39,19 @@ public class FitnessManagementActivity extends AppCompatActivity implements Adap
         setContentView(R.layout.activity_fitness_management);
 
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
+        listViewRoutines = findViewById(R.id.list_routines);
+        addButton = findViewById(R.id.addButton);
+
         mSpinnerRedirect.setOnItemSelectedListener(this);
 
         dbHelper = new FitnessLogDBHelper(this);
 
-        listViewRoutines = findViewById(R.id.list_routines);
         List<RoutineData> routines = dbHelper.getAllRoutines();
         int x = dbHelper.getRoutinesTableLength();
         List<String> routineNames = new ArrayList<>();
 
         for (RoutineData routine : routines) {
+            Log.d("routineName", routine.routineName);
             routineNames.add(routine.routineName);
         }
 
@@ -55,6 +62,14 @@ public class FitnessManagementActivity extends AppCompatActivity implements Adap
         String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
         int weightManagementIndex = Arrays.asList(redirectOptions).indexOf("Fitness management");
         mSpinnerRedirect.setSelection(weightManagementIndex);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FitnessManagementActivity.this, AddRoutineActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
