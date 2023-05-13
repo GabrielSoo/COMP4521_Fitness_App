@@ -1,67 +1,87 @@
 package com.example.comp4521_fitness_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.comp4521_fitness_app.data.CurrentUser;
+import com.example.comp4521_fitness_app.database.nutritionLog.NutritionLogDBHelper;
+import com.example.comp4521_fitness_app.database.nutritionLog.NutritionLogData;
+import com.example.comp4521_fitness_app.database.weightLog.WeightLogData;
 import com.example.comp4521_fitness_app.nutritionActivity.BreakfastActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.DinnerActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.LunchActivity;
+import com.example.comp4521_fitness_app.utilities.DateUtils;
 
 import java.util.Arrays;
 
 public class NutritionManagementActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner mSpinnerRedirect;
-    private TextView dailyCaloriesTextView;
-    private TextView goalCaloriesTextView;
+    private Button logButton;
+    private TextView dailyCaloriesTextView, goalCaloriesTextView;
     private ProgressBar calories;
-    private TextView mCarbsTextView;
-    private TextView mProteinTextView;
-    private TextView mFatsTextView;
-    private ProgressBar mCarbsProgressBar;
-    private ProgressBar mProteinProgressBar;
-    private ProgressBar mFatsProgressBar;
-    private Button mBreakfastButton;
-    private Button mLunchButton;
-    private Button mDinnerButton;
+    private TextView mCarbsTextView, mProteinTextView, mFatsTextView;
+    private ProgressBar mCarbsProgressBar, mProteinProgressBar, mFatsProgressBar;
+    private TextView breakfastCaloriesTextView, breakfastCarbTextView, breakfastProteinTextView, breakfastFatTextView;
+    private TextView lunchCaloriesTextView, lunchCarbTextView, lunchProteinTextView, lunchFatTextView;
+    private TextView dinnerCaloriesTextView, dinnerCarbTextView, dinnerProteinTextView, dinnerFatTextView;
+    private Button mBreakfastButton, mLunchButton, mDinnerButton;
 
-    private int mCaloriesValue = 0;
-    private int mGoalValue = 3000;
-    private int mCarbsValue = 0;
-    private int mProteinValue = 0;
-    private int mFatValue = 0;
-    private int mBreakfastCaloriesValue = 0;
-    private int mBreakfastCarbValue = 0;
-    private int mBreakfastProteinValue = 0;
-    private int mBreakfastFatValue = 0;
-    private int mLunchCaloriesValue = 0;
-    private int mLunchCarbValue = 0;
-    private int mLunchProteinValue = 0;
-    private int mLunchFatValue = 0;
-    private int mDinnerCaloriesValue = 0;
-    private int mDinnerCarbValue = 0;
-    private int mDinnerProteinValue = 0;
-    private int mDinnerFatValue = 0;
-
-
+    private float mCaloriesValue = 0, mGoalValue = 3000, mCarbsValue = 0, mProteinValue = 0, mFatValue = 0;
+    private float mBreakfastCaloriesValue = 0, mBreakfastCarbValue = 0, mBreakfastProteinValue = 0, mBreakfastFatValue = 0;
+    private float mLunchCaloriesValue = 0, mLunchCarbValue = 0, mLunchProteinValue = 0, mLunchFatValue = 0;
+    private float mDinnerCaloriesValue = 0, mDinnerCarbValue = 0, mDinnerProteinValue = 0, mDinnerFatValue = 0;
     private SharedPreferences mSharedPreferences;
+    // data
+    private NutritionLogData latestData;
+    private String username;
+    private NutritionLogDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutrition_management);
 
+        dbHelper = new NutritionLogDBHelper(this);
+
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
         mSpinnerRedirect.setOnItemSelectedListener(this);
+
+        // Initialize the views
+        dailyCaloriesTextView = findViewById(R.id.text_daily_calories);
+        goalCaloriesTextView = findViewById(R.id.text_goal_calories);
+        mCarbsTextView = findViewById(R.id.carbs_text_view);
+        mProteinTextView = findViewById(R.id.protein_text_view);
+        mFatsTextView = findViewById(R.id.fats_text_view);
+        breakfastCaloriesTextView = findViewById(R.id.breakfastCalories);
+        breakfastCarbTextView = findViewById(R.id.breakfastCarbs);
+        breakfastProteinTextView = findViewById(R.id.breakfastProteins);
+        breakfastFatTextView = findViewById(R.id.breakfastFats);
+        lunchCaloriesTextView = findViewById(R.id.lunchCalories);
+        lunchCarbTextView = findViewById(R.id.lunchCarbs);
+        lunchProteinTextView = findViewById(R.id.lunchProteins);
+        lunchFatTextView = findViewById(R.id.lunchFats);
+        dinnerCaloriesTextView = findViewById(R.id.dinnerCalories);
+        dinnerCarbTextView = findViewById(R.id.dinnerCarbs);
+        dinnerProteinTextView = findViewById(R.id.dinnerProteins);
+        dinnerFatTextView = findViewById(R.id.dinnerFats);
+        logButton = findViewById(R.id.logButton);
+
+        // Get the username from the previous activity
+        username = CurrentUser.getInstance().getUsername();
 
         // Set the default selection to "Nutrition management"
         String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
@@ -71,7 +91,7 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         // Initialize SharedPreferences
         mSharedPreferences = getSharedPreferences("NutritionData", MODE_PRIVATE);
 
-        //mSharedPreferences.edit().clear().apply();
+        mSharedPreferences.edit().clear().apply();
 
         // Retrieve the extra from the Intent
         Intent intent = getIntent();
@@ -92,36 +112,36 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
             int dinnerFats = intent.getIntExtra("DINNER_FATS", 0);
 
             // Get the saved nutrition data from SharedPreferences
-            mCaloriesValue = mSharedPreferences.getInt("CALORIES_VALUE", 0);
-            mCarbsValue = mSharedPreferences.getInt("CARBS_VALUE", 0);
-            mProteinValue = mSharedPreferences.getInt("PROTEIN_VALUE", 0);
-            mFatValue = mSharedPreferences.getInt("FAT_VALUE", 0);
+            mCaloriesValue = Integer.parseInt(dailyCaloriesTextView.getText().toString());
+            mCarbsValue = Integer.parseInt(mCarbsTextView.getText().toString());
+            mProteinValue = Integer.parseInt(mProteinTextView.getText().toString());
+            mFatValue = Integer.parseInt(mFatsTextView.getText().toString());
 
             // Update the mBreakfastCaloriesValue with the value from the Intent
-            mBreakfastCaloriesValue = mSharedPreferences.getInt("BREAKFAST_CALORIES_VALUE", 0);
-            mBreakfastCarbValue = mSharedPreferences.getInt("BREAKFAST_CARB_VALUE", 0);
-            mBreakfastProteinValue = mSharedPreferences.getInt("BREAKFAST_PROTEIN_VALUE", 0);
-            mBreakfastFatValue = mSharedPreferences.getInt("BREAKFAST_FAT_VALUE", 0);
+            mBreakfastCaloriesValue = Integer.parseInt(breakfastCaloriesTextView.getText().toString());
+            mBreakfastCarbValue = Integer.parseInt(breakfastCarbTextView.getText().toString());
+            mBreakfastProteinValue = Integer.parseInt(breakfastProteinTextView.getText().toString());
+            mBreakfastFatValue = Integer.parseInt(breakfastFatTextView.getText().toString());
             mBreakfastCaloriesValue += breakfastCalories;
             mBreakfastCarbValue += breakfastCarbs;
             mBreakfastProteinValue += breakfastProteins;
             mBreakfastFatValue += breakfastFats;
 
             // Update the mLunchCaloriesValue with the value from the Intent
-            mLunchCaloriesValue = mSharedPreferences.getInt("LUNCH_CALORIES_VALUE", 0);
-            mLunchCarbValue = mSharedPreferences.getInt("LUNCH_CARB_VALUE", 0);
-            mLunchProteinValue = mSharedPreferences.getInt("LUNCH_PROTEIN_VALUE", 0);
-            mLunchFatValue = mSharedPreferences.getInt("LUNCH_FAT_VALUE", 0);
+            mLunchCaloriesValue = Integer.parseInt(lunchCaloriesTextView.getText().toString());
+            mLunchCarbValue = Integer.parseInt(lunchCarbTextView.getText().toString());
+            mLunchProteinValue = Integer.parseInt(lunchProteinTextView.getText().toString());
+            mLunchFatValue = Integer.parseInt(lunchFatTextView.getText().toString());
             mLunchCaloriesValue += lunchCalories;
             mLunchCarbValue += lunchCarbs;
             mLunchProteinValue += lunchProteins;
             mLunchFatValue += lunchFats;
 
             // Update the mLunchCaloriesValue with the value from the Intent
-            mDinnerCaloriesValue = mSharedPreferences.getInt("DINNER_CALORIES_VALUE", 0);
-            mDinnerCarbValue = mSharedPreferences.getInt("DINNER_CARB_VALUE", 0);
-            mDinnerProteinValue = mSharedPreferences.getInt("DINNER_PROTEIN_VALUE", 0);
-            mDinnerFatValue = mSharedPreferences.getInt("DINNER_FAT_VALUE", 0);
+            mDinnerCaloriesValue = Integer.parseInt(dinnerCaloriesTextView.getText().toString());
+            mDinnerCarbValue = Integer.parseInt(dinnerCarbTextView.getText().toString());
+            mDinnerProteinValue = Integer.parseInt(dinnerProteinTextView.getText().toString());
+            mDinnerFatValue = Integer.parseInt(dinnerFatTextView.getText().toString());
             mDinnerCaloriesValue += dinnerCalories;
             mDinnerCarbValue += dinnerCarbs;
             mDinnerProteinValue += dinnerProteins;
@@ -132,64 +152,44 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
             mProteinValue += breakfastProteins + lunchProteins + dinnerProteins;
             mFatValue += breakfastFats + lunchFats + dinnerFats;
 
-            // Save the updated nutrition data to SharedPreferences
-            SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putInt("CALORIES_VALUE", mCaloriesValue);
-            editor.putInt("CARBS_VALUE", mCarbsValue);
-            editor.putInt("PROTEIN_VALUE", mProteinValue);
-            editor.putInt("FAT_VALUE", mFatValue);
-            editor.putInt("BREAKFAST_CALORIES_VALUE", mBreakfastCaloriesValue);
-            editor.putInt("BREAKFAST_CARB_VALUE", mBreakfastCarbValue);
-            editor.putInt("BREAKFAST_PROTEIN_VALUE", mBreakfastProteinValue);
-            editor.putInt("BREAKFAST_FAT_VALUE", mBreakfastFatValue);
-            editor.putInt("LUNCH_CALORIES_VALUE", mLunchCaloriesValue);
-            editor.putInt("LUNCH_CARB_VALUE", mLunchCarbValue);
-            editor.putInt("LUNCH_PROTEIN_VALUE", mLunchProteinValue);
-            editor.putInt("LUNCH_FAT_VALUE", mLunchFatValue);
-            editor.putInt("DINNER_CALORIES_VALUE", mDinnerCaloriesValue);
-            editor.putInt("DINNER_CARB_VALUE", mDinnerCarbValue);
-            editor.putInt("DINNER_PROTEIN_VALUE", mDinnerProteinValue);
-            editor.putInt("DINNER_FAT_VALUE", mDinnerFatValue);
-            editor.apply();
+            // Update the TextView with the new value
+            breakfastCaloriesTextView = findViewById(R.id.breakfastCalories);
+            breakfastCaloriesTextView.setText(String.format("%.1f", mBreakfastCaloriesValue) + "kCal");
+
+            breakfastCarbTextView = findViewById(R.id.breakfastCarbs);
+            breakfastCarbTextView.setText(String.format("%.1f", mBreakfastCarbValue) + " g\nCarb");
+
+            breakfastProteinTextView = findViewById(R.id.breakfastProteins);
+            breakfastProteinTextView.setText(String.format("%.1f", mBreakfastProteinValue) + " g\nProtein");
+
+            breakfastFatTextView = findViewById(R.id.breakfastFats);
+            breakfastFatTextView.setText(String.format("%.1f", mBreakfastFatValue) + " g\nFat");
 
             // Update the TextView with the new value
-            TextView breakfastCaloriesTextView = findViewById(R.id.breakfastCalories);
-            breakfastCaloriesTextView.setText(Integer.toString(mBreakfastCaloriesValue) + "kCal");
+            lunchCaloriesTextView = findViewById(R.id.lunchCalories);
+            lunchCaloriesTextView.setText(String.format("%.1f", mLunchCaloriesValue) + "kCal");
 
-            TextView breakfastCarbTextView = findViewById(R.id.breakfastCarbs);
-            breakfastCarbTextView.setText(Integer.toString(mBreakfastCarbValue) + " g\nCarb");
+            lunchCarbTextView = findViewById(R.id.lunchCarbs);
+            lunchCarbTextView.setText(String.format("%.1f", mLunchCarbValue) + " g\nCarb");
 
-            TextView breakfastProteinTextView = findViewById(R.id.breakfastProteins);
-            breakfastProteinTextView.setText(Integer.toString(mBreakfastProteinValue) + " g\nProtein");
+            lunchProteinTextView = findViewById(R.id.lunchProteins);
+            lunchProteinTextView.setText(String.format("%.1f", mLunchProteinValue) + " g\nProtein");
 
-            TextView breakfastFatTextView = findViewById(R.id.breakfastFats);
-            breakfastFatTextView.setText(Integer.toString(mBreakfastFatValue) + " g\nFat");
-
-            // Update the TextView with the new value
-            TextView lunchCaloriesTextView = findViewById(R.id.lunchCalories);
-            lunchCaloriesTextView.setText(Integer.toString(mLunchCaloriesValue) + "kCal");
-
-            TextView lunchCarbTextView = findViewById(R.id.lunchCarbs);
-            lunchCarbTextView.setText(Integer.toString(mLunchCarbValue) + " g\nCarb");
-
-            TextView lunchProteinTextView = findViewById(R.id.lunchProteins);
-            lunchProteinTextView.setText(Integer.toString(mLunchProteinValue) + " g\nProtein");
-
-            TextView lunchFatTextView = findViewById(R.id.lunchFats);
-            lunchFatTextView.setText(Integer.toString(mLunchFatValue) + " g\nFat");
+            lunchFatTextView = findViewById(R.id.lunchFats);
+            lunchFatTextView.setText(String.format("%.1f", mLunchFatValue) + " g\nFat");
 
             // Update the TextView with the new value
-            TextView dinnerCaloriesTextView = findViewById(R.id.dinnerCalories);
-            dinnerCaloriesTextView.setText(Integer.toString(mDinnerCaloriesValue) + "kCal");
+            dinnerCaloriesTextView = findViewById(R.id.dinnerCalories);
+            dinnerCaloriesTextView.setText(String.format("%.1f", mDinnerCaloriesValue) + "kCal");
 
-            TextView dinnerCarbTextView = findViewById(R.id.dinnerCarbs);
-            dinnerCarbTextView.setText(Integer.toString(mDinnerCarbValue) + " g\nCarb");
+            dinnerCarbTextView = findViewById(R.id.dinnerCarbs);
+            dinnerCarbTextView.setText(String.format("%.1f", mDinnerCarbValue) + " g\nCarb");
 
-            TextView dinnerProteinTextView = findViewById(R.id.dinnerProteins);
-            dinnerProteinTextView.setText(Integer.toString(mDinnerProteinValue) + " g\nProtein");
+            dinnerProteinTextView = findViewById(R.id.dinnerProteins);
+            dinnerProteinTextView.setText(String.format("%.1f", mDinnerProteinValue) + " g\nProtein");
 
-            TextView dinnerFatTextView = findViewById(R.id.dinnerFats);
-            dinnerFatTextView.setText(Integer.toString(mDinnerFatValue) + " g\nFat");
+            dinnerFatTextView = findViewById(R.id.dinnerFats);
+            dinnerFatTextView.setText(String.format("%.1f", mDinnerFatValue) + " g\nFat");
         }
 
         // Find the Carbs TextView and set its text dynamically
@@ -260,6 +260,14 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
                 startActivity(intent);
             }
         });
+
+        updateUI();
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logNutrition();
+            }
+        });
     }
 
     @Override
@@ -290,5 +298,97 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         // Do nothing
+    }
+
+    public void updateUI() {
+        // Fill in fields with latest weight log data for this user
+        latestData = dbHelper.getLatestNutritionLogData(username);
+        if (latestData != null) {
+            // Fill in daily calories
+            dailyCaloriesTextView.setText(String.valueOf(latestData.actualCalories));
+            // Fill in macros
+            mCarbsTextView.setText(String.valueOf(latestData.carbsValue));
+            mProteinTextView.setText(String.valueOf(latestData.proteinValue));
+            mFatsTextView.setText(String.valueOf(latestData.fatValue));
+            // Fill in breakfast data
+            breakfastCaloriesTextView.setText(String.valueOf(latestData.breakfastCaloriesValue));
+            breakfastCarbTextView.setText(String.valueOf(latestData.breakfastCarbValue));
+            breakfastProteinTextView.setText(String.valueOf(latestData.breakfastProteinValue));
+            breakfastFatTextView.setText(String.valueOf(latestData.breakfastFatValue));
+            // Fill in lunch data
+            lunchCaloriesTextView.setText(String.valueOf(latestData.lunchCaloriesValue));
+            lunchCarbTextView.setText(String.valueOf(latestData.lunchCarbValue));
+            lunchProteinTextView.setText(String.valueOf(latestData.lunchProteinValue));
+            lunchFatTextView.setText(String.valueOf(latestData.lunchFatValue));
+            // Fill in dinner data
+            dinnerCaloriesTextView.setText(String.valueOf(latestData.dinnerCaloriesValue));
+            dinnerCarbTextView.setText(String.valueOf(latestData.dinnerCarbValue));
+            dinnerProteinTextView.setText(String.valueOf(latestData.dinnerProteinValue));
+            dinnerFatTextView.setText(String.valueOf(latestData.dinnerFatValue));
+        }
+    }
+
+    public void logNutrition(){
+        String CaloriesStr = dailyCaloriesTextView.getText().toString();
+        String CarbStr = mCarbsTextView.getText().toString();
+        String ProteinStr = mProteinTextView.getText().toString();
+        String FatStr = mFatsTextView.getText().toString();
+        String BreakfastCaloriesStr = breakfastCaloriesTextView.getText().toString();
+        String BreakfastCarbStr = breakfastCarbTextView.getText().toString();
+        String BreakfastProteinStr = breakfastProteinTextView.getText().toString();
+        String BreakfastFatStr = breakfastFatTextView.getText().toString();
+        String LunchCaloriesStr = lunchCaloriesTextView.getText().toString();
+        String LunchCarbStr = lunchCarbTextView.getText().toString();
+        String LunchProteinStr = lunchProteinTextView.getText().toString();
+        String LunchFatStr = lunchFatTextView.getText().toString();
+        String DinnerCaloriesStr = dinnerCaloriesTextView.getText().toString();
+        String DinnerCarbStr = dinnerCarbTextView.getText().toString();
+        String DinnerProteinStr = dinnerProteinTextView.getText().toString();
+        String DinnerFatStr = dinnerFatTextView.getText().toString();
+
+        float calories = Float.parseFloat(CaloriesStr);
+        float carbs = Float.parseFloat(CarbStr);
+        float protein = Float.parseFloat(ProteinStr);
+        float fat = Float.parseFloat(FatStr);
+        float breakfastCalories = Float.parseFloat(BreakfastCaloriesStr);
+        float breakfastCarb = Float.parseFloat(BreakfastCarbStr);
+        float breakfastProtein = Float.parseFloat(BreakfastProteinStr);
+        float breakfastFat = Float.parseFloat(BreakfastFatStr);
+        float lunchCalories = Float.parseFloat(LunchCaloriesStr);
+        float lunchCarb = Float.parseFloat(LunchCarbStr);
+        float lunchProtein = Float.parseFloat(LunchProteinStr);
+        float lunchFat = Float.parseFloat(LunchFatStr);
+        float dinnerCalories = Float.parseFloat(DinnerCaloriesStr);
+        float dinnerCarb = Float.parseFloat(DinnerCarbStr);
+        float dinnerProtein = Float.parseFloat(DinnerProteinStr);
+        float dinnerFat = Float.parseFloat(DinnerFatStr);
+
+        String dateCreated = DateUtils.getDateTime();
+
+        // Save data to database
+        NutritionLogData data = new NutritionLogData(-1,
+                                username,
+                                calories,
+                                latestData.goalCalories,
+                                carbs,
+                                protein,
+                                fat,
+                                breakfastCalories,
+                                breakfastCarb,
+                                breakfastProtein,
+                                breakfastFat,
+                                lunchCalories,
+                                lunchCarb,
+                                lunchProtein,
+                                lunchFat,
+                                dinnerCalories,
+                                dinnerCarb,
+                                dinnerProtein,
+                                dinnerFat,
+                                dateCreated);
+        dbHelper.insertNutritionLogData(data);
+
+        // Show success message
+        Toast.makeText(this, "Nutrition logged successfully", Toast.LENGTH_SHORT).show();
     }
 }

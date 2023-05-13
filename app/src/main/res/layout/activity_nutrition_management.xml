@@ -156,11 +156,21 @@
 
         </FrameLayout>
 
+        <Button
+            android:id="@+id/logButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="115dp"
+            android:text="Log"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progress_bar"/>
+
         <FrameLayout
             android:layout_width="349dp"
             android:layout_height="175dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="170dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progress_bar">
 
@@ -242,7 +252,7 @@
             android:layout_width="349dp"
             android:layout_height="175dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="330dp"
+            android:layout_marginTop="350dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progress_bar">
 
@@ -324,7 +334,7 @@
             android:layout_width="349dp"
             android:layout_height="175dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="519dp"
+            android:layout_marginTop="539dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progress_bar">
 

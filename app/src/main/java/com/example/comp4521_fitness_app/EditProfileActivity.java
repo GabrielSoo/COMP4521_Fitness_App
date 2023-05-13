@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,41 +47,37 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(selectedGenderId != -1) {
                     // Get the radio button view
                     genderRadioButton = findViewById(selectedGenderId);
-
                     // Get the text of the radio button view
                     gender = genderRadioButton.getText().toString();
-
                     // Create an intent to start the ProfileActivity
-                    Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-                    intent.putExtra("gender", gender);
-                    startActivity(intent);
                 } else {
                     // No radio button is selected
                     Toast.makeText(EditProfileActivity.this, "Please select a gender", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 int selectedActiveId = activeRadioGroup.getCheckedRadioButtonId();
                 if(selectedActiveId != -1) {
                     // Get the radio button view
                     activeRadioButton = findViewById(selectedActiveId);
-
                     // Get the text of the radio button view
                     active = activeRadioButton.getText().toString();
                 } else {
                     // No radio button is selected
                     Toast.makeText(EditProfileActivity.this, "Please select a active level", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 int selectedGoalTypeId = goalTypeRadioGroup.getCheckedRadioButtonId();
                 if(selectedGoalTypeId != -1) {
                     // Get the radio button view
                     goalTypeRadioButton = findViewById(selectedGoalTypeId);
-
                     // Get the text of the radio button view
                     goalType = goalTypeRadioButton.getText().toString();
                 } else {
                     // No radio button is selected
                     Toast.makeText(EditProfileActivity.this, "Please select a goal type", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 // Validate the input fields
@@ -88,6 +85,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 height = heightInput.getText().toString();
                 weight = weightInput.getText().toString();
                 weightGoal = weightGoalInput.getText().toString();
+
+                // Check if any of the input fields are empty
+                if (TextUtils.isEmpty(age) || TextUtils.isEmpty(height)
+                        || TextUtils.isEmpty(weight) || TextUtils.isEmpty(weightGoal)) {
+                    Toast.makeText(EditProfileActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // Create an intent to start the ProfileActivity
                 Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);

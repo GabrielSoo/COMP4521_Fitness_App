@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.comp4521_fitness_app.data.CurrentUser;
 
 import java.util.Arrays;
 
@@ -19,8 +20,9 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private String gender, active, goalType;
     private int age = 0, height = 0, weight = 0, weightGoal = 0;
     private float bmr = 0.0f, amr = 0.0f;
-    private TextView nutritionGoalTextView, weightGoalTypeTextView, weightCurrentTextView, weightGoalTextView;
+    private TextView usernameTextView, nutritionGoalTextView, weightGoalTypeTextView, weightCurrentTextView, weightGoalTextView;
     private Button editProfileButton;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +32,26 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
         mSpinnerRedirect.setOnItemSelectedListener(this);
 
-        // Set the default selection to "Weight management"
-        String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
-        int weightManagementIndex = Arrays.asList(redirectOptions).indexOf("Profile");
-        mSpinnerRedirect.setSelection(weightManagementIndex);
-
+        usernameTextView = findViewById(R.id.usernameText);
         nutritionGoalTextView = findViewById(R.id.nutritionGoal);
         weightGoalTypeTextView = findViewById(R.id.weightGoalType);
         weightCurrentTextView = findViewById(R.id.weightCurrent);
         weightGoalTextView = findViewById(R.id.weightGoal);
+
+        // Get the username from the previous activity
+        username = CurrentUser.getInstance().getUsername();
+        usernameTextView.setText(username);
+
+        // Set the default selection to "Weight management"
+        String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
+        int weightManagementIndex = Arrays.asList(redirectOptions).indexOf("Profile");
+        mSpinnerRedirect.setSelection(weightManagementIndex);
 
         Intent intent = getIntent();
         if (intent != null) {
             age = intent.getIntExtra("AGE", 0);
             height = intent.getIntExtra("HEIGHT", 0);
             gender = intent.getStringExtra("GENDER");
-            Log.d("ProfileActivity", "Gender received from intent: " + gender);
             active = intent.getStringExtra("ACTIVE");
 
             goalType = intent.getStringExtra("GOAL_TYPE");
