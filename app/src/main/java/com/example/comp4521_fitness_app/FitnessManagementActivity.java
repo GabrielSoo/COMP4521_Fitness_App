@@ -1,20 +1,33 @@
 package com.example.comp4521_fitness_app;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.comp4521_fitness_app.R;
+import com.example.comp4521_fitness_app.database.fitnessLog.ExerciseData;
+import com.example.comp4521_fitness_app.database.fitnessLog.FitnessLogDBHelper;
+import com.example.comp4521_fitness_app.database.fitnessLog.RoutineData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class FitnessManagementActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner mSpinnerRedirect;
+    private FitnessLogDBHelper dbHelper;
+    private ListView listViewRoutines;
+    private ArrayAdapter<String> routinesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +36,20 @@ public class FitnessManagementActivity extends AppCompatActivity implements Adap
 
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
         mSpinnerRedirect.setOnItemSelectedListener(this);
+
+        dbHelper = new FitnessLogDBHelper(this);
+
+        listViewRoutines = findViewById(R.id.list_routines);
+        List<RoutineData> routines = dbHelper.getAllRoutines();
+        int x = dbHelper.getRoutinesTableLength();
+        List<String> routineNames = new ArrayList<>();
+
+        for (RoutineData routine : routines) {
+            routineNames.add(routine.routineName);
+        }
+
+        routinesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, routineNames);
+        listViewRoutines.setAdapter(routinesAdapter);
 
         // Set the default selection to "Weight management"
         String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
@@ -36,7 +63,7 @@ public class FitnessManagementActivity extends AppCompatActivity implements Adap
         Intent intent;
 
         switch (redirectOption) {
-            case "Home Page":
+            case "Home page":
                 intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 break;

@@ -4,12 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.comp4521_fitness_app.data.CurrentUser;
 import com.example.comp4521_fitness_app.utilities.DateUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FitnessLogDBHelper extends SQLiteOpenHelper {
@@ -23,8 +23,6 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
     private static final String TABLE_EXERCISE = "exercise";
     private static final String TABLE_EXERCISE_SET = "exercise_set";
 
-    // Common column names
-    private static final String COLUMN_ID = "id";
 
     // Activity_log table columns
     private static final String COLUMN_LOG_ID = "log_id";
@@ -50,13 +48,12 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_WEIGHT = "weight";
     private static final String COLUMN_CALORIES_BURNED = "calories_burned";
 
-    // Enum for exercise types
-    enum exerciseType {WEIGHTS, CARDIO};
-
     private String currentUser = CurrentUser.getInstance().getUsername();
 
     public FitnessLogDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        addDefaultExercises(getWritableDatabase());
+        addDefaultRoutine(getWritableDatabase());
     }
 
     @Override
@@ -73,7 +70,7 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
 
         String CREATE_EXERCISE_ROUTINE_TABLE = "CREATE TABLE " + TABLE_EXERCISE_ROUTINE + "("
                 + COLUMN_EXERCISE_ROUTINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_ROUTINE_ID + "INTEGER"
+                + COLUMN_ROUTINE_ID + " INTEGER, "
                 + COLUMN_EXERCISE_ID + " INTEGER,"
                 + "FOREIGN KEY(" + COLUMN_ROUTINE_ID + ") REFERENCES " + TABLE_ROUTINE + "(" + COLUMN_ROUTINE_ID + "), "
                 + "FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " + TABLE_EXERCISE + "(" + COLUMN_EXERCISE_ID + ")"
@@ -90,7 +87,7 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         String CREATE_EXERCISE_TABLE = "CREATE TABLE " + TABLE_EXERCISE + "("
                 + COLUMN_EXERCISE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_EXERCISE_NAME + " TEXT,"
-                + COLUMN_EXERCISE_TYPE + " INTEGER"
+                + COLUMN_EXERCISE_TYPE + " STRING"
                 + ")";
         db.execSQL(CREATE_EXERCISE_TABLE);
 
@@ -106,7 +103,6 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " + TABLE_EXERCISE + "(" + COLUMN_EXERCISE_ID + ")"
                 + ")";
         db.execSQL(CREATE_EXERCISE_SET_TABLE);
-        addDefaultExercises();
     }
 
     @Override
@@ -122,37 +118,58 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    private void addDefaultExercises() {
-        String[] weightExercises = ExerciseListData.getWeightExercises();
-        String[] cardioExercises = ExerciseListData.getCardioExercises();
+    private void addDefaultExercises(SQLiteDatabase db) {
+        String countQuery = "SELECT COUNT(*) FROM " + TABLE_EXERCISE;
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int exerciseCount = 0;
 
-        for (String exercise : weightExercises) {
-            addExercise(new ExerciseData(-1, exercise, ExerciseData.ExerciseType.WEIGHTS));
+        if (cursor.moveToFirst()) {
+            exerciseCount = cursor.getInt(0);
         }
 
-        for (String exercise : cardioExercises) {
-            addExercise(new ExerciseData(-1, exercise, ExerciseData.ExerciseType.CARDIO));
+        cursor.close();
+
+        if (exerciseCount == 0) {
+            String[] weightExercises = ExerciseListData.getWeightExercises();
+            String[] cardioExercises = ExerciseListData.getCardioExercises();
+
+            for (String exercise : weightExercises) {
+                addExercise(db, new ExerciseData(-1, exercise, "weights"));
+            }
+
+            for (String exercise : cardioExercises) {
+                addExercise(db, new ExerciseData(-1, exercise, "cardio"));
+            }
         }
     }
 
-    private void addDefaultRoutine() {
-        RoutineData routineData = new RoutineData(-1, new int[]{1, 2, 3}, "Default Routine");
+    private void addDefaultRoutine(SQLiteDatabase db) {
+        // Check if the Routine table is empty for the current user
+        String countQuery = "SELECT COUNT(*) FROM " + TABLE_ROUTINE +
+                " WHERE " + COLUMN_USERNAME + " = ?";
+        Cursor cursor = db.rawQuery(countQuery, new String[]{currentUser});
+        cursor.moveToFirst();
+        int rowCount = cursor.getInt(0);
+        cursor.close();
+
+        if (rowCount == 0) {
+            // Add the default routine
+            RoutineData routineData = new RoutineData(-1, new int[]{1, 2, 3}, "Default Routine");
+            addRoutine(db, routineData);
+        }
     }
 
-    private void addExercise(ExerciseData data) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        String INSERT_EXERCISE_QUERY = "INSERT INTO " + TABLE_EXERCISE + "("
-                + COLUMN_EXERCISE_NAME + "," + COLUMN_EXERCISE_TYPE + ") VALUES ('"
-                + data.exerciseName + "','" + data.exerciseType + "')";
+    private void addExercise(SQLiteDatabase db, ExerciseData data) {
+        ContentValues exerciseValues = new ContentValues();
+        exerciseValues.put(COLUMN_EXERCISE_NAME, data.exerciseName);
+        exerciseValues.put(COLUMN_EXERCISE_TYPE, data.exerciseType);
 
-        db.execSQL(INSERT_EXERCISE_QUERY);
-        db.close();
+        db.insert(TABLE_EXERCISE, null, exerciseValues);
     }
 
-    public void addRoutine(RoutineData data) {
-        SQLiteDatabase db = getWritableDatabase();
 
+    public void addRoutine(SQLiteDatabase db, RoutineData data) {
         // Insert the routine data into ROUTINE_TABLE
         ContentValues routineValues = new ContentValues();
         routineValues.put(COLUMN_USERNAME, currentUser);
@@ -168,8 +185,6 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
                 db.insert(TABLE_EXERCISE_ROUTINE, null, exerciseRoutineValues);
             }
         }
-
-        db.close();
     }
 
 
@@ -189,11 +204,11 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[]{currentUser});
-
         if (cursor.moveToFirst()) {
             int currentRoutineId = -1;
             List<Integer> exerciseIds = new ArrayList<>();
             String routineName;
+
             do {
                 int routineId = cursor.getInt(cursor.getColumnIndex(COLUMN_ROUTINE_ID));
                 routineName = cursor.getString(cursor.getColumnIndex(COLUMN_ROUTINE_NAME));
@@ -281,4 +296,42 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    public int[] getAllExerciseIds() {
+        int[] exerciseIds = new int[0];
+
+        String selectQuery = "SELECT " + COLUMN_EXERCISE_ID + " FROM " + TABLE_EXERCISE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            exerciseIds = new int[cursor.getCount()];
+            int index = 0;
+
+            do {
+                exerciseIds[index++] = cursor.getInt(cursor.getColumnIndex(COLUMN_EXERCISE_ID));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return exerciseIds;
+    }
+
+    public int getRoutinesTableLength() {
+        String countQuery = "SELECT COUNT(*) FROM " + TABLE_ROUTINE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int rowCount = 0;
+
+        if (cursor.moveToFirst()) {
+            rowCount = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return rowCount;
+    }
+
 }
