@@ -242,40 +242,80 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         return routines;
     }
 
-
-
     public RoutineData getRoutineById(int routineId) {
         RoutineData routine = null;
+        SQLiteDatabase db = getReadableDatabase();
 
-        String selectQuery = "SELECT " +
-                "r." + COLUMN_ROUTINE_NAME + ", " +
-                "e." + COLUMN_EXERCISE_ID +
-                " FROM " + TABLE_ROUTINE + " r" +
-                " INNER JOIN " + TABLE_EXERCISE_ROUTINE + " er" +
-                " ON r." + COLUMN_ROUTINE_ID + " = er." + COLUMN_ROUTINE_ID +
-                " INNER JOIN " + TABLE_EXERCISE + " e" +
-                " ON er." + COLUMN_EXERCISE_ID + " = e." + COLUMN_EXERCISE_ID +
-                " WHERE r." + COLUMN_ROUTINE_ID + " = ?";
+        // Retrieve the routine name
+        String[] nameColumns = {COLUMN_ROUTINE_NAME};
+        String nameSelection = COLUMN_ROUTINE_ID + " = ?";
+        String[] nameSelectionArgs = {String.valueOf(routineId)};
+        Cursor nameCursor = db.query(TABLE_ROUTINE, nameColumns, nameSelection, nameSelectionArgs, null, null, null);
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(routineId)});
+        String routineName = "";
+        if (nameCursor.moveToFirst()) {
+            routineName = nameCursor.getString(nameCursor.getColumnIndex(COLUMN_ROUTINE_NAME));
+        }
+        nameCursor.close();
+
+        // Retrieve the exercise IDs for the given routine
+        String[] exerciseColumns = {COLUMN_EXERCISE_ID};
+        String exerciseSelection = COLUMN_ROUTINE_ID + " = ?";
+        String[] exerciseSelectionArgs = {String.valueOf(routineId)};
+        Cursor exerciseCursor = db.query(TABLE_EXERCISE_ROUTINE, exerciseColumns, exerciseSelection, exerciseSelectionArgs, null, null, null);
+
+        List<Integer> exerciseIds = new ArrayList<>();
+        if (exerciseCursor.moveToFirst()) {
+            do {
+                int exerciseId = exerciseCursor.getInt(exerciseCursor.getColumnIndex(COLUMN_EXERCISE_ID));
+                exerciseIds.add(exerciseId);
+            } while (exerciseCursor.moveToNext());
+        }
+        exerciseCursor.close();
+
+        // Create the RoutineData object
+        if (!routineName.isEmpty() && !exerciseIds.isEmpty()) {
+            routine = new RoutineData(routineId, exerciseIds.stream().mapToInt(Integer::intValue).toArray(), routineName);
+        }
+
+        db.close();
+
+        return routine;
+    }
+
+    public List<ExerciseData> getExercisesByIds(int[] exerciseIds) {
+        List<ExerciseData> exercises = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Create the selection criteria for exercise IDs
+        StringBuilder selection = new StringBuilder();
+        selection.append(COLUMN_EXERCISE_ID).append(" IN (");
+        for (int i = 0; i < exerciseIds.length; i++) {
+            selection.append(exerciseIds[i]);
+            if (i < exerciseIds.length - 1) {
+                selection.append(",");
+            }
+        }
+        selection.append(")");
+
+        // Query the exercise table with the selection criteria
+        Cursor cursor = db.query(TABLE_EXERCISE, null, selection.toString(), null, null, null, null);
 
         if (cursor.moveToFirst()) {
-            String routineName = cursor.getString(cursor.getColumnIndex(COLUMN_ROUTINE_NAME));
-            List<Integer> exerciseIds = new ArrayList<>();
-
             do {
                 int exerciseId = cursor.getInt(cursor.getColumnIndex(COLUMN_EXERCISE_ID));
-                exerciseIds.add(exerciseId);
-            } while (cursor.moveToNext());
+                String exerciseName = cursor.getString(cursor.getColumnIndex(COLUMN_EXERCISE_NAME));
+                String exerciseType = cursor.getString(cursor.getColumnIndex(COLUMN_EXERCISE_TYPE));
 
-            routine = new RoutineData(routineId, exerciseIds.stream().mapToInt(Integer::intValue).toArray(), routineName);
+                ExerciseData exercise = new ExerciseData(exerciseId, exerciseName, exerciseType);
+                exercises.add(exercise);
+            } while (cursor.moveToNext());
         }
 
         cursor.close();
         db.close();
 
-        return routine;
+        return exercises;
     }
 
     public void logActivity(ExerciseSetData[] exerciseSetDataArray) {

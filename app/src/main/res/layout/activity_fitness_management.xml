@@ -64,19 +64,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/text_title"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="65dp">
+            android:layout_marginBottom="16dp">
         </ListView>
-
-        <Button
-            android:id="@+id/btn_log_routines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Log Routine"
-            android:background="@android:color/holo_blue_light"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:padding="16dp" />
 
     </RelativeLayout>
 
