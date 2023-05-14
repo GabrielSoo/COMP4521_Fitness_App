@@ -3,6 +3,7 @@ package com.example.comp4521_fitness_app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -83,6 +84,11 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
             nutritionGoalTextView.setText("Nutrition Goal: " + amr + "kCal");
         }
+
+        SharedPreferences preferences = getSharedPreferences("NutritionData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat("GOAL_VALUE", amr);
+        editor.apply();
 
         editProfileButton = findViewById(R.id.editProfileButton);
         editProfileButton.setOnClickListener(new View.OnClickListener() {

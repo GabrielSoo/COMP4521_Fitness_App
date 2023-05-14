@@ -19,398 +19,402 @@
             android:entries="@array/redirect_options"
             android:prompt="@string/redirect_prompt"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.185"
+            app:layout_constraintHorizontal_bias="0.135"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_daily_calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="Daily calories:"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinner_redirect" />
-
-        <TextView
-            android:id="@+id/text_daily_calories_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_daily_calories" />
-
-        <TextView
-            android:id="@+id/text_goal_calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="16dp"
-            android:text="Your Goal:"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinner_redirect" />
-
-        <TextView
-            android:id="@+id/text_goal_calories_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="316dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_goal_calories" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
+            android:id="@+id/calendar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:max="100"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_daily_calories_value"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"/>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ProgressBar
-                android:id="@+id/carbs_progress_bar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/circle_progress_bar"/>
-
-            <TextView
-                android:id="@+id/carbs_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="155dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ProgressBar
-                android:id="@+id/protein_progress_bar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/circle_progress_bar"/>
-
-            <TextView
-                android:id="@+id/protein_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="278dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ProgressBar
-                android:id="@+id/fats_progress_bar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:indeterminateOnly="false"
-                android:progressDrawable="@drawable/circle_progress_bar"/>
-
-            <TextView
-                android:id="@+id/fats_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-        </FrameLayout>
-
-        <Button
-            android:id="@+id/logButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="115dp"
-            android:text="Log"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar"/>
-
-        <FrameLayout
-            android:layout_width="349dp"
-            android:layout_height="175dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="170dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-            <TextView
-                android:id="@+id/breakfastTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:text="Breakfast"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toTopOf="@id/imageView1" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_redirect">
 
             <Button
-                android:id="@+id/breakfastButton"
-                android:layout_width="match_parent"
+                android:id="@+id/previous_button"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="+ Add Breakfast"
-                android:layout_marginTop="100dp" />
+                android:text="Prev" />
 
             <TextView
-                android:id="@+id/breakfastCalories"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="50dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-            <TextView
-                android:id="@+id/breakfastCarbs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-            <TextView
-                android:id="@+id/breakfastProteins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-            <TextView
-                android:id="@+id/breakfastFats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="349dp"
-            android:layout_height="175dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="350dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-            <TextView
-                android:id="@+id/lunchTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:text="Lunch"
+                android:layout_marginTop="7dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toTopOf="@id/imageView2" />
+                android:textStyle="bold" />
 
             <Button
-                android:id="@+id/lunchButton"
-                android:layout_width="match_parent"
+                android:id="@+id/next_button"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="+ Add Lunch"
-                android:layout_marginTop="100dp" />
+                android:text="Next" />
 
-            <TextView
-                android:id="@+id/lunchCalories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="50dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/lunchCarbs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-            <TextView
-                android:id="@+id/lunchProteins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-            <TextView
-                android:id="@+id/lunchFats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="349dp"
-            android:layout_height="175dp"
+        <LinearLayout
+            android:id="@+id/NutritionView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="539dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar">
+            app:layout_constraintTop_toBottomOf="@+id/calendar">
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-            <TextView
-                android:id="@+id/dinnerTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:text="Dinner"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toTopOf="@id/imageView3" />
-
-            <Button
-                android:id="@+id/dinnerButton"
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_daily_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Daily calories:"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/text_goal_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Your Goal:"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_daily_calories_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/text_goal_calories_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <ProgressBar
+                        android:id="@+id/carbs_progress_bar"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/circle_progress_bar" />
+
+                    <TextView
+                        android:id="@+id/carbs_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <ProgressBar
+                        android:id="@+id/protein_progress_bar"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/circle_progress_bar"/>
+
+                    <TextView
+                        android:id="@+id/protein_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1">
+
+                    <ProgressBar
+                        android:id="@+id/fats_progress_bar"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/circle_progress_bar"/>
+
+                    <TextView
+                        android:id="@+id/fats_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="349dp"
                 android:layout_height="wrap_content"
-                android:text="+ Add Dinner"
-                android:layout_marginTop="100dp" />
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/breakfastTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Breakfast"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/breakfastButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:text="+ LOG Breakfast" />
+
+                <TextView
+                    android:id="@+id/breakfastCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/breakfastCarbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="85dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/breakfastProteins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="145dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/breakfastFats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="205dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="349dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/lunchTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lunch"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/lunchButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="+ Log Lunch"
+                    android:layout_marginTop="100dp" />
+
+                <TextView
+                    android:id="@+id/lunchCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/lunchCarbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="85dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/lunchProteins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="145dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/lunchFats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="205dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="349dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/dinnerTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dinner"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dinnerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="+ Log Dinner"
+                    android:layout_marginTop="100dp" />
+
+                <TextView
+                    android:id="@+id/dinnerCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dinnerCarbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="85dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/dinnerProteins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="145dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/dinnerFats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="205dp"
+                    android:layout_marginTop="50dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/NutritionView">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id='@+id/nutritionChart'
+                android:layout_width="match_parent"
+                android:layout_height="320dp" />
 
             <TextView
-                android:id="@+id/dinnerCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="50dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+                android:layout_gravity="center_horizontal"
+                android:text="Date"
+                android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/dinnerCarbs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/dinnerProteins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView3"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
 
-            <TextView
-                android:id="@+id/dinnerFats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
-                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
-
-        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

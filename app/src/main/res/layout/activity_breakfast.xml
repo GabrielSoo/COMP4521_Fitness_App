@@ -22,26 +22,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/breakfastImageView1"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
             <TextView
                 android:id="@+id/lunchTextView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:text="Congee"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toTopOf="@id/imageView1" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/lunchButton1"
@@ -56,49 +46,45 @@
                 android:id="@+id/lunch1Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="50dp"
                 android:text="256kCal"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/lunch1Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="50dp"
                 android:text="39g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/lunch1Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="150dp"
                 android:layout_marginTop="50dp"
                 android:text="5g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/lunch1Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="300dp"
+                android:layout_marginStart="210dp"
                 android:layout_marginTop="50dp"
                 android:text="10g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
         </FrameLayout>
@@ -114,26 +100,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/breakfastItem1">
 
-            <ImageView
-                android:id="@+id/lunchImageView2"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
             <TextView
                 android:id="@+id/breakfastTextView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:text="Instant Noodle"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toTopOf="@id/imageView1" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/breakfastButton2"
@@ -148,49 +124,45 @@
                 android:id="@+id/breakfast2Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="50dp"
                 android:text="380kCal"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast2Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="50dp"
                 android:text="52g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast2Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="150dp"
                 android:layout_marginTop="50dp"
                 android:text="14g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast2Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
+                android:layout_marginStart="210dp"
                 android:layout_marginTop="50dp"
                 android:text="8g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
         </FrameLayout>
@@ -206,26 +178,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lunchItem2">
 
-            <ImageView
-                android:id="@+id/breakfastImageView3"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
             <TextView
                 android:id="@+id/breakfastTextView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:text="Macaroni Soup"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toTopOf="@id/imageView1" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/breakfastButton3"
@@ -240,49 +202,45 @@
                 android:id="@+id/breakfast3Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="50dp"
                 android:text="290kCal"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast3Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="50dp"
                 android:text="61g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast3Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="150dp"
                 android:layout_marginTop="50dp"
                 android:text="7g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast3Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
+                android:layout_marginStart="210dp"
                 android:layout_marginTop="50dp"
                 android:text="9g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
         </FrameLayout>
@@ -298,26 +256,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/breakfastItem3">
 
-            <ImageView
-                android:id="@+id/breakfastImageView4"
-                android:layout_width="99dp"
-                android:layout_height="94dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
             <TextView
                 android:id="@+id/breakfastTextView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:text="Omelette Toast"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
-                app:layout_constraintTop_toTopOf="@id/imageView1" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/breakfastButton4"
@@ -332,49 +280,45 @@
                 android:id="@+id/breakfast4Calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="115dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="50dp"
                 android:text="324kCal"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast4Carbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="50dp"
                 android:text="29g\nCarb"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast4Proteins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="150dp"
                 android:layout_marginTop="50dp"
                 android:text="9g\nProtein"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
             <TextView
                 android:id="@+id/breakfast4Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="310dp"
+                android:layout_marginStart="210dp"
                 android:layout_marginTop="50dp"
                 android:text="37g\nFat"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                app:layout_constraintStart_toEndOf="@id/imageView1"
                 app:layout_constraintTop_toBottomOf="@id/lunchTextView" />
 
         </FrameLayout>

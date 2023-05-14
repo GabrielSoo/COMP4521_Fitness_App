@@ -1,53 +1,59 @@
 package com.example.comp4521_fitness_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.comp4521_fitness_app.data.CurrentUser;
-import com.example.comp4521_fitness_app.database.nutritionLog.NutritionLogDBHelper;
-import com.example.comp4521_fitness_app.database.nutritionLog.NutritionLogData;
-import com.example.comp4521_fitness_app.database.weightLog.WeightLogData;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.comp4521_fitness_app.nutritionActivity.BreakfastActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.DinnerActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.LunchActivity;
-import com.example.comp4521_fitness_app.utilities.DateUtils;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class NutritionManagementActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner mSpinnerRedirect;
-    private Button logButton;
-    private TextView dailyCaloriesTextView, goalCaloriesTextView;
-    private ProgressBar calories;
-    private TextView mCarbsTextView, mProteinTextView, mFatsTextView;
-    private ProgressBar mCarbsProgressBar, mProteinProgressBar, mFatsProgressBar;
+    private TextView dailyCaloriesTextView, goalCaloriesTextView, mCarbsTextView, mProteinTextView, mFatsTextView;;
+    private ProgressBar calories, mCarbsProgressBar, mProteinProgressBar, mFatsProgressBar;
     private TextView breakfastCaloriesTextView, breakfastCarbTextView, breakfastProteinTextView, breakfastFatTextView;
     private TextView lunchCaloriesTextView, lunchCarbTextView, lunchProteinTextView, lunchFatTextView;
     private TextView dinnerCaloriesTextView, dinnerCarbTextView, dinnerProteinTextView, dinnerFatTextView;
     private Button mBreakfastButton, mLunchButton, mDinnerButton;
 
-    private float mCaloriesValue, mGoalValue = 3000, mCarbsValue, mProteinValue, mFatValue;
+    private float mCaloriesValue, mGoalValue, mCarbsValue, mProteinValue, mFatValue;
     private float mBreakfastCaloriesValue, mBreakfastCarbValue, mBreakfastProteinValue, mBreakfastFatValue;
     private float mLunchCaloriesValue, mLunchCarbValue, mLunchProteinValue, mLunchFatValue;
     private float mDinnerCaloriesValue, mDinnerCarbValue, mDinnerProteinValue, mDinnerFatValue;
+    private Button previousButton, nextButton;
+    private TextView currentDate;
+    private String Date;
+    private DateFormat dateFormat;
+
     private SharedPreferences mSharedPreferences;
-    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,28 +70,34 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         // Initialize SharedPreferences
         mSharedPreferences = getSharedPreferences("NutritionData", MODE_PRIVATE);
 
+        // Uncomment to reset log for testing
+        //mSharedPreferences.edit().clear().apply();
+
+        // Get today's date in the format "yyyy-MM-dd"
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date = mSharedPreferences.getString("selectedDate", dateFormat.format(new Date()));
+
+        currentDate = findViewById(R.id.date);
+        currentDate.setText(Date);
+
         // Get the saved nutrition data from SharedPreferences
-        mCaloriesValue = mSharedPreferences.getFloat("CALORIES_VALUE", 0);
-        mCarbsValue = mSharedPreferences.getFloat("CARBS_VALUE", 0);
-        mProteinValue = mSharedPreferences.getFloat("PROTEIN_VALUE", 0);
-        mFatValue = mSharedPreferences.getFloat("FAT_VALUE", 0);
-        mBreakfastCaloriesValue = mSharedPreferences.getFloat("BREAKFAST_CALORIES_VALUE", 0);
-        mBreakfastCarbValue = mSharedPreferences.getFloat("BREAKFAST_CARB_VALUE", 0);
-        mBreakfastProteinValue = mSharedPreferences.getFloat("BREAKFAST_PROTEIN_VALUE", 0);
-        mBreakfastFatValue = mSharedPreferences.getFloat("BREAKFAST_FAT_VALUE", 0);
-        mLunchCaloriesValue = mSharedPreferences.getFloat("LUNCH_CALORIES_VALUE", 0);
-        mLunchCarbValue = mSharedPreferences.getFloat("LUNCH_CARB_VALUE", 0);
-        mLunchProteinValue = mSharedPreferences.getFloat("LUNCH_PROTEIN_VALUE", 0);
-        mLunchFatValue = mSharedPreferences.getFloat("LUNCH_FAT_VALUE", 0);
-        mDinnerCaloriesValue = mSharedPreferences.getFloat("DINNER_CALORIES_VALUE", 0);
-        mDinnerCarbValue = mSharedPreferences.getFloat("DINNER_CARB_VALUE", 0);
-        mDinnerProteinValue = mSharedPreferences.getFloat("DINNER_PROTEIN_VALUE", 0);
-        mDinnerFatValue = mSharedPreferences.getFloat("DINNER_FAT_VALUE", 0);
-
-        // Get the username from the previous activity
-        username = CurrentUser.getInstance().getUsername();
-        logButton = findViewById(R.id.logButton);
-
+        mCaloriesValue = mSharedPreferences.getFloat(Date + "CALORIES_VALUE", 0);
+        mGoalValue = mSharedPreferences.getFloat(Date + "GOAL_VALUE", 0);
+        mCarbsValue = mSharedPreferences.getFloat(Date + "CARBS_VALUE", 0);
+        mProteinValue = mSharedPreferences.getFloat(Date + "PROTEIN_VALUE", 0);
+        mFatValue = mSharedPreferences.getFloat(Date + "FAT_VALUE", 0);
+        mBreakfastCaloriesValue = mSharedPreferences.getFloat(Date + "BREAKFAST_CALORIES_VALUE", 0);
+        mBreakfastCarbValue = mSharedPreferences.getFloat(Date + "BREAKFAST_CARB_VALUE", 0);
+        mBreakfastProteinValue = mSharedPreferences.getFloat(Date + "BREAKFAST_PROTEIN_VALUE", 0);
+        mBreakfastFatValue = mSharedPreferences.getFloat(Date + "BREAKFAST_FAT_VALUE", 0);
+        mLunchCaloriesValue = mSharedPreferences.getFloat(Date + "LUNCH_CALORIES_VALUE", 0);
+        mLunchCarbValue = mSharedPreferences.getFloat(Date + "LUNCH_CARB_VALUE", 0);
+        mLunchProteinValue = mSharedPreferences.getFloat(Date + "LUNCH_PROTEIN_VALUE", 0);
+        mLunchFatValue = mSharedPreferences.getFloat(Date + "LUNCH_FAT_VALUE", 0);
+        mDinnerCaloriesValue = mSharedPreferences.getFloat(Date + "DINNER_CALORIES_VALUE", 0);
+        mDinnerCarbValue = mSharedPreferences.getFloat(Date + "DINNER_CARB_VALUE", 0);
+        mDinnerProteinValue = mSharedPreferences.getFloat(Date + "DINNER_PROTEIN_VALUE", 0);
+        mDinnerFatValue = mSharedPreferences.getFloat(Date + "DINNER_FAT_VALUE", 0);
 
         // Retrieve the extra from the Intent
         Intent intent = getIntent();
@@ -171,22 +183,23 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
 
         // Save the updated nutrition data to SharedPreferences
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putFloat("CALORIES_VALUE", mCaloriesValue);
-        editor.putFloat("CARBS_VALUE", mCarbsValue);
-        editor.putFloat("PROTEIN_VALUE", mProteinValue);
-        editor.putFloat("FAT_VALUE", mFatValue);
-        editor.putFloat("BREAKFAST_CALORIES_VALUE", mBreakfastCaloriesValue);
-        editor.putFloat("BREAKFAST_CARB_VALUE", mBreakfastCarbValue);
-        editor.putFloat("BREAKFAST_PROTEIN_VALUE", mBreakfastProteinValue);
-        editor.putFloat("BREAKFAST_FAT_VALUE", mBreakfastFatValue);
-        editor.putFloat("LUNCH_CALORIES_VALUE", mLunchCaloriesValue);
-        editor.putFloat("LUNCH_CARB_VALUE", mLunchCarbValue);
-        editor.putFloat("LUNCH_PROTEIN_VALUE", mLunchProteinValue);
-        editor.putFloat("LUNCH_FAT_VALUE", mLunchFatValue);
-        editor.putFloat("DINNER_CALORIES_VALUE", mDinnerCaloriesValue);
-        editor.putFloat("DINNER_CARB_VALUE", mDinnerCarbValue);
-        editor.putFloat("DINNER_PROTEIN_VALUE", mDinnerProteinValue);
-        editor.putFloat("DINNER_FAT_VALUE", mDinnerFatValue);
+        editor.putFloat(Date + "CALORIES_VALUE", mCaloriesValue);
+        editor.putFloat(Date + "GOAL_VALUE", mGoalValue);
+        editor.putFloat(Date + "CARBS_VALUE", mCarbsValue);
+        editor.putFloat(Date + "PROTEIN_VALUE", mProteinValue);
+        editor.putFloat(Date + "FAT_VALUE", mFatValue);
+        editor.putFloat(Date + "BREAKFAST_CALORIES_VALUE", mBreakfastCaloriesValue);
+        editor.putFloat(Date + "BREAKFAST_CARB_VALUE", mBreakfastCarbValue);
+        editor.putFloat(Date + "BREAKFAST_PROTEIN_VALUE", mBreakfastProteinValue);
+        editor.putFloat(Date + "BREAKFAST_FAT_VALUE", mBreakfastFatValue);
+        editor.putFloat(Date + "LUNCH_CALORIES_VALUE", mLunchCaloriesValue);
+        editor.putFloat(Date + "LUNCH_CARB_VALUE", mLunchCarbValue);
+        editor.putFloat(Date + "LUNCH_PROTEIN_VALUE", mLunchProteinValue);
+        editor.putFloat(Date + "LUNCH_FAT_VALUE", mLunchFatValue);
+        editor.putFloat(Date + "DINNER_CALORIES_VALUE", mDinnerCaloriesValue);
+        editor.putFloat(Date + "DINNER_CARB_VALUE", mDinnerCarbValue);
+        editor.putFloat(Date + "DINNER_PROTEIN_VALUE", mDinnerProteinValue);
+        editor.putFloat(Date + "DINNER_FAT_VALUE", mDinnerFatValue);
         editor.apply();
 
         // Find the Carbs TextView and set its text dynamically
@@ -229,6 +242,7 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         // Find the TextView for daily calories and set its text dynamically
         goalCaloriesTextView = findViewById(R.id.text_goal_calories_value);
         String goalCaloriesValue = mGoalValue + " kCal";
+        Log.d("YourTag", "mGoalValue: " + mGoalValue);
         goalCaloriesTextView.setText(goalCaloriesValue);
 
         mBreakfastButton = findViewById(R.id.breakfastButton);
@@ -258,12 +272,176 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
             }
         });
 
-        logButton.setOnClickListener(new View.OnClickListener() {
+        previousButton = findViewById(R.id.previous_button);
+        previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //DO NOTHING
+            public void onClick(View v) {
+                // Subtract one day from the current date
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                try {
+                    Date currentDate = dateFormat.parse(Date);
+                    calendar.setTime(currentDate);
+                    calendar.add(Calendar.DAY_OF_YEAR, -1);
+                    Date = dateFormat.format(calendar.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                // Retrieve the nutrition data for the new date from SharedPreferences
+                mCaloriesValue = mSharedPreferences.getFloat(Date + "CALORIES_VALUE", 0);
+                mGoalValue = mSharedPreferences.getFloat(Date + "GOAL_VALUE", 0);
+                mCarbsValue = mSharedPreferences.getFloat(Date + "CARBS_VALUE", 0);
+                mProteinValue = mSharedPreferences.getFloat(Date + "PROTEIN_VALUE", 0);
+                mFatValue = mSharedPreferences.getFloat(Date + "FAT_VALUE", 0);
+                mBreakfastCaloriesValue = mSharedPreferences.getFloat(Date + "BREAKFAST_CALORIES_VALUE", 0);
+                mBreakfastCarbValue = mSharedPreferences.getFloat(Date + "BREAKFAST_CARB_VALUE", 0);
+                mBreakfastProteinValue = mSharedPreferences.getFloat(Date + "BREAKFAST_PROTEIN_VALUE", 0);
+                mBreakfastFatValue = mSharedPreferences.getFloat(Date + "BREAKFAST_FAT_VALUE", 0);
+                mLunchCaloriesValue = mSharedPreferences.getFloat(Date + "LUNCH_CALORIES_VALUE", 0);
+                mLunchCarbValue = mSharedPreferences.getFloat(Date + "LUNCH_CARB_VALUE", 0);
+                mLunchProteinValue = mSharedPreferences.getFloat(Date + "LUNCH_PROTEIN_VALUE", 0);
+                mLunchFatValue = mSharedPreferences.getFloat(Date + "LUNCH_FAT_VALUE", 0);
+                mDinnerCaloriesValue = mSharedPreferences.getFloat(Date + "DINNER_CALORIES_VALUE", 0);
+                mDinnerCarbValue = mSharedPreferences.getFloat(Date + "DINNER_CARB_VALUE", 0);
+                mDinnerProteinValue = mSharedPreferences.getFloat(Date + "DINNER_PROTEIN_VALUE", 0);
+                mDinnerFatValue = mSharedPreferences.getFloat(Date + "DINNER_FAT_VALUE", 0);
+
+                // Update the UI with the nutrition data for the new date
+                currentDate.setText(Date);
+
+                String dailyCaloriesValue = mCaloriesValue + " kCal";
+                dailyCaloriesTextView.setText(dailyCaloriesValue);
+
+                String goalCaloriesValue = mGoalValue + " kCal";
+                goalCaloriesTextView.setText(goalCaloriesValue);
+
+                int calories_percentage = (int) (((float) mCaloriesValue / (float) mGoalValue) * 100);
+                calories.setProgress(calories_percentage);
+
+                int carbs_percentage = (int) (((float) mCarbsValue / (float) carbs_goal) * 100);
+                mCarbsProgressBar.setProgress(carbs_percentage);
+                String carbsText = mCarbsValue + "g\nCarb";
+                mCarbsTextView.setText(carbsText);
+
+                int protein_percentage = (int) (((float) mProteinValue / (float) protein_goal) * 100);
+                mProteinProgressBar.setProgress(protein_percentage);
+                String proteinText = mProteinValue + "g\nProtein";
+                mProteinTextView.setText(proteinText);
+
+                int fat_percentage = (int) (((float) mFatValue / (float) fat_goal) * 100);
+                mFatsProgressBar.setProgress(fat_percentage);
+                String fatsText = mFatValue + "g\nFat";
+                mFatsTextView.setText(fatsText);
+
+                breakfastCaloriesTextView.setText(Float.toString(mBreakfastCaloriesValue) + "kCal");
+                breakfastCarbTextView.setText(Float.toString(mBreakfastCarbValue) + " g\nCarb");
+                breakfastProteinTextView.setText(Float.toString(mBreakfastProteinValue) + " g\nProtein");
+                breakfastFatTextView.setText(Float.toString(mBreakfastFatValue) + " g\nFat");
+
+                lunchCaloriesTextView.setText(Float.toString(mLunchCaloriesValue) + "kCal");
+                lunchCarbTextView.setText(Float.toString(mLunchCarbValue) + " g\nCarb");
+                lunchProteinTextView.setText(Float.toString(mLunchProteinValue) + " g\nProtein");
+                lunchFatTextView.setText(Float.toString(mLunchFatValue) + " g\nFat");
+
+                dinnerCaloriesTextView.setText(Float.toString(mDinnerCaloriesValue) + "kCal");
+                dinnerCarbTextView.setText(Float.toString(mDinnerCarbValue) + " g\nCarb");
+                dinnerProteinTextView.setText(Float.toString(mDinnerProteinValue) + " g\nProtein");
+                dinnerFatTextView.setText(Float.toString(mDinnerFatValue) + " g\nFat");
+
+                // Save the selected date in SharedPreferences
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putString("selectedDate", currentDate.getText().toString());
+                editor.apply();
             }
         });
+
+
+        nextButton = findViewById(R.id.next_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Subtract one day from the current date
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                try {
+                    Date currentDate = dateFormat.parse(Date);
+                    calendar.setTime(currentDate);
+                    calendar.add(Calendar.DAY_OF_YEAR, +1);
+                    Date = dateFormat.format(calendar.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                // Retrieve the nutrition data for the new date from SharedPreferences
+                mCaloriesValue = mSharedPreferences.getFloat(Date + "CALORIES_VALUE", 0);
+                mGoalValue = mSharedPreferences.getFloat(Date + "GOAL_VALUE", 0);
+                mCarbsValue = mSharedPreferences.getFloat(Date + "CARBS_VALUE", 0);
+                mProteinValue = mSharedPreferences.getFloat(Date + "PROTEIN_VALUE", 0);
+                mFatValue = mSharedPreferences.getFloat(Date + "FAT_VALUE", 0);
+                mBreakfastCaloriesValue = mSharedPreferences.getFloat(Date + "BREAKFAST_CALORIES_VALUE", 0);
+                mBreakfastCarbValue = mSharedPreferences.getFloat(Date + "BREAKFAST_CARB_VALUE", 0);
+                mBreakfastProteinValue = mSharedPreferences.getFloat(Date + "BREAKFAST_PROTEIN_VALUE", 0);
+                mBreakfastFatValue = mSharedPreferences.getFloat(Date + "BREAKFAST_FAT_VALUE", 0);
+                mLunchCaloriesValue = mSharedPreferences.getFloat(Date + "LUNCH_CALORIES_VALUE", 0);
+                mLunchCarbValue = mSharedPreferences.getFloat(Date + "LUNCH_CARB_VALUE", 0);
+                mLunchProteinValue = mSharedPreferences.getFloat(Date + "LUNCH_PROTEIN_VALUE", 0);
+                mLunchFatValue = mSharedPreferences.getFloat(Date + "LUNCH_FAT_VALUE", 0);
+                mDinnerCaloriesValue = mSharedPreferences.getFloat(Date + "DINNER_CALORIES_VALUE", 0);
+                mDinnerCarbValue = mSharedPreferences.getFloat(Date + "DINNER_CARB_VALUE", 0);
+                mDinnerProteinValue = mSharedPreferences.getFloat(Date + "DINNER_PROTEIN_VALUE", 0);
+                mDinnerFatValue = mSharedPreferences.getFloat(Date + "DINNER_FAT_VALUE", 0);
+
+                // Update the UI with the nutrition data for the new date
+                currentDate.setText(Date);
+
+                String dailyCaloriesValue = mCaloriesValue + " kCal";
+                dailyCaloriesTextView.setText(dailyCaloriesValue);
+
+                String goalCaloriesValue = mGoalValue + " kCal";
+                goalCaloriesTextView.setText(goalCaloriesValue);
+
+                int calories_percentage = (int) (((float) mCaloriesValue / (float) mGoalValue) * 100);
+                calories.setProgress(calories_percentage);
+
+                int carbs_percentage = (int) (((float) mCarbsValue / (float) carbs_goal) * 100);
+                mCarbsProgressBar.setProgress(carbs_percentage);
+                String carbsText = mCarbsValue + "g\nCarb";
+                mCarbsTextView.setText(carbsText);
+
+                int protein_percentage = (int) (((float) mProteinValue / (float) protein_goal) * 100);
+                mProteinProgressBar.setProgress(protein_percentage);
+                String proteinText = mProteinValue + "g\nProtein";
+                mProteinTextView.setText(proteinText);
+
+                int fat_percentage = (int) (((float) mFatValue / (float) fat_goal) * 100);
+                mFatsProgressBar.setProgress(fat_percentage);
+                String fatsText = mFatValue + "g\nFat";
+                mFatsTextView.setText(fatsText);
+
+                breakfastCaloriesTextView.setText(Float.toString(mBreakfastCaloriesValue) + "kCal");
+                breakfastCarbTextView.setText(Float.toString(mBreakfastCarbValue) + " g\nCarb");
+                breakfastProteinTextView.setText(Float.toString(mBreakfastProteinValue) + " g\nProtein");
+                breakfastFatTextView.setText(Float.toString(mBreakfastFatValue) + " g\nFat");
+
+                lunchCaloriesTextView.setText(Float.toString(mLunchCaloriesValue) + "kCal");
+                lunchCarbTextView.setText(Float.toString(mLunchCarbValue) + " g\nCarb");
+                lunchProteinTextView.setText(Float.toString(mLunchProteinValue) + " g\nProtein");
+                lunchFatTextView.setText(Float.toString(mLunchFatValue) + " g\nFat");
+
+                dinnerCaloriesTextView.setText(Float.toString(mDinnerCaloriesValue) + "kCal");
+                dinnerCarbTextView.setText(Float.toString(mDinnerCarbValue) + " g\nCarb");
+                dinnerProteinTextView.setText(Float.toString(mDinnerProteinValue) + " g\nProtein");
+                dinnerFatTextView.setText(Float.toString(mDinnerFatValue) + " g\nFat");
+
+                // Save the selected date in SharedPreferences
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.putString("selectedDate", currentDate.getText().toString());
+                editor.apply();
+            }
+        });
+
+        drawGraph();
     }
 
     @Override
@@ -295,4 +473,72 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
     public void onNothingSelected(AdapterView<?> adapterView) {
         // Do nothing
     }
+
+    private void drawGraph() {
+        // Get the current date - 1 month
+        // Get today's date in the format "yyyy-MM-dd"
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date startDate = calendar.getTime();
+
+        // Get the goalCalories and actualCalories data for the last month
+        ArrayList<Entry> goalEntries = new ArrayList<>();
+        ArrayList<Entry> actualEntries = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            String date = dateFormat.format(startDate);
+            float goalCalories = mSharedPreferences.getFloat(date + "GOAL_VALUE", 0);
+            float actualCalories = mSharedPreferences.getFloat(date + "CALORIES_VALUE", 0);
+            goalEntries.add(new Entry(i, goalCalories));
+            actualEntries.add(new Entry(i, actualCalories));
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            startDate = calendar.getTime();
+        }
+
+        // Draw the graph
+        LineChart lineChart = findViewById(R.id.nutritionChart);
+        Graph(lineChart, goalEntries, actualEntries);
+    }
+
+    private void Graph(LineChart lineChart, ArrayList<Entry> goalEntries, ArrayList<Entry> actualEntries) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date startDate = calendar.getTime();
+        // Set the data
+        LineDataSet goalCaloriesDataSet = new LineDataSet(goalEntries, "Goal Calories");
+        goalCaloriesDataSet.setColor(Color.RED);
+        goalCaloriesDataSet.setCircleColor(Color.RED);
+
+        LineDataSet actualCaloriesDataSet = new LineDataSet(actualEntries, "Actual Calories");
+        actualCaloriesDataSet.setColor(Color.BLUE);
+        actualCaloriesDataSet.setCircleColor(Color.BLUE);
+
+        LineData lineData = new LineData(goalCaloriesDataSet, actualCaloriesDataSet);
+
+        // Set the X-axis label formatter to show dates in "MMM dd" format
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                calendar.setTime(startDate);
+                calendar.add(Calendar.DAY_OF_MONTH, (int) value);
+                Date date = calendar.getTime();
+                return dateFormat.format(date);
+            }
+        });
+
+        // Set the chart settings
+        lineChart.setData(lineData);
+        lineChart.setTouchEnabled(true);
+        lineChart.setDragEnabled(true);
+        lineChart.setScaleEnabled(true);
+        lineChart.setPinchZoom(true);
+        lineChart.setDrawGridBackground(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getDescription().setEnabled(false);
+
+        // Refresh the chart
+        lineChart.invalidate();
+    }
+
 }
