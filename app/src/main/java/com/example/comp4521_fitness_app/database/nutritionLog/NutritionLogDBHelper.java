@@ -67,7 +67,6 @@ public class NutritionLogDBHelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
     }
 
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
@@ -99,7 +98,6 @@ public class NutritionLogDBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
-
 
     public NutritionLogData getLatestNutritionLogData(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -156,7 +154,6 @@ public class NutritionLogDBHelper extends SQLiteOpenHelper {
             return null;
         }
     }
-
     public List<NutritionLogData> getAllNutritionLogData(String username) {
         List<NutritionLogData> nutritionLogDataList = new ArrayList<>();
 
