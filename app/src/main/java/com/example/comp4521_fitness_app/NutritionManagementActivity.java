@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -410,22 +411,149 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         String DinnerProteinStr = dinnerProteinTextView.getText().toString();
         String DinnerFatStr = dinnerFatTextView.getText().toString();
 
-        float calories = Float.parseFloat(CaloriesStr);
-        float carbs = Float.parseFloat(CarbStr);
-        float protein = Float.parseFloat(ProteinStr);
-        float fat = Float.parseFloat(FatStr);
-        float breakfastCalories = Float.parseFloat(BreakfastCaloriesStr);
-        float breakfastCarb = Float.parseFloat(BreakfastCarbStr);
-        float breakfastProtein = Float.parseFloat(BreakfastProteinStr);
-        float breakfastFat = Float.parseFloat(BreakfastFatStr);
-        float lunchCalories = Float.parseFloat(LunchCaloriesStr);
-        float lunchCarb = Float.parseFloat(LunchCarbStr);
-        float lunchProtein = Float.parseFloat(LunchProteinStr);
-        float lunchFat = Float.parseFloat(LunchFatStr);
-        float dinnerCalories = Float.parseFloat(DinnerCaloriesStr);
-        float dinnerCarb = Float.parseFloat(DinnerCarbStr);
-        float dinnerProtein = Float.parseFloat(DinnerProteinStr);
-        float dinnerFat = Float.parseFloat(DinnerFatStr);
+        float calories;
+        if (CaloriesStr != null && !TextUtils.isEmpty(CaloriesStr)) {
+            CaloriesStr = CaloriesStr.replaceAll("[^\\d.]", "");
+            calories = Float.parseFloat(CaloriesStr);
+        } else {
+            // handle the case where CaloriesStr is null or empty
+            calories = 0.0f;
+        }
+
+        float carb;
+        if (CarbStr != null && !TextUtils.isEmpty(CarbStr)) {
+            CarbStr = CarbStr.replaceAll("[^\\d.]", "");
+            carb = Float.parseFloat(CarbStr);
+        } else {
+            // handle the case where CarbStr is null or empty
+            carb = 0.0f;
+        }
+
+        float protein;
+        if (ProteinStr != null && !TextUtils.isEmpty(ProteinStr)) {
+            ProteinStr = ProteinStr.replaceAll("[^\\d.]", "");
+            protein = Float.parseFloat(ProteinStr);
+        } else {
+            // handle the case where ProteinStr is null or empty
+            protein = 0.0f;
+        }
+
+        float fat;
+        if (FatStr != null && !TextUtils.isEmpty(FatStr)) {
+            FatStr = FatStr.replaceAll("[^\\d.]", "");
+            fat = Float.parseFloat(FatStr);
+        } else {
+            // handle the case where FatStr is null or empty
+            fat = 0.0f;
+        }
+
+        float breakfastCalories;
+        if (BreakfastCaloriesStr != null && !TextUtils.isEmpty(BreakfastCaloriesStr)) {
+            BreakfastCaloriesStr = BreakfastCaloriesStr.replaceAll("[^\\d.]", "");
+            breakfastCalories = Float.parseFloat(BreakfastCaloriesStr);
+        } else {
+            // handle the case where BreakfastCaloriesStr is null or empty
+            breakfastCalories = 0.0f;
+        }
+
+        float breakfastCarb;
+        if (BreakfastCarbStr != null && !TextUtils.isEmpty(BreakfastCarbStr)) {
+            BreakfastCarbStr = BreakfastCarbStr.replaceAll("[^\\d.]", "");
+            breakfastCarb = Float.parseFloat(BreakfastCarbStr);
+        } else {
+            // handle the case where BreakfastCarbStr is null or empty
+            breakfastCarb = 0.0f;
+        }
+
+        float breakfastProtein;
+        if (BreakfastProteinStr != null && !TextUtils.isEmpty(BreakfastProteinStr)) {
+            BreakfastProteinStr = BreakfastProteinStr.replaceAll("[^\\d.]", "");
+            breakfastProtein = Float.parseFloat(BreakfastProteinStr);
+        } else {
+            // handle the case where BreakfastProteinStr is null or empty
+            breakfastProtein = 0.0f;
+        }
+
+        float breakfastFat;
+        if (BreakfastFatStr != null && !TextUtils.isEmpty(BreakfastFatStr)) {
+            BreakfastFatStr = BreakfastFatStr.replaceAll("[^\\d.]", "");
+            breakfastFat = Float.parseFloat(BreakfastFatStr);
+        } else {
+            // handle the case where BreakfastFatStr is null or empty
+            breakfastFat = 0.0f;
+        }
+
+        float lunchCalories;
+        if (LunchCaloriesStr != null && !TextUtils.isEmpty(LunchCaloriesStr)) {
+            LunchCaloriesStr = LunchCaloriesStr.replaceAll("[^\\d.]", "");
+            lunchCalories = Float.parseFloat(LunchCaloriesStr);
+        } else {
+            // handle the case where LunchCaloriesStr is null or empty
+            lunchCalories = 0.0f;
+        }
+
+        float lunchCarb;
+        if (LunchCarbStr != null && !TextUtils.isEmpty(LunchCarbStr)) {
+            LunchCarbStr = LunchCarbStr.replaceAll("[^\\d.]", "");
+            lunchCarb = Float.parseFloat(LunchCarbStr);
+        } else {
+            // handle the case where LunchCarbStr is null or empty
+            lunchCarb = 0.0f;
+        }
+
+        float lunchProtein;
+        if (LunchProteinStr != null && !TextUtils.isEmpty(LunchProteinStr)) {
+            LunchProteinStr = LunchProteinStr.replaceAll("[^\\d.]", "");
+            lunchProtein = Float.parseFloat(LunchProteinStr);
+        } else {
+            // handle the case where LunchProteinStr is null or empty
+            lunchProtein = 0.0f;
+        }
+
+        float lunchFat;
+        if (LunchFatStr != null && !TextUtils.isEmpty(LunchFatStr)) {
+            LunchFatStr = LunchFatStr.replaceAll("[^\\d.]", "");
+            lunchFat = Float.parseFloat(LunchFatStr);
+        } else {
+            // handle the case where LunchFatStr is null or empty
+            lunchFat = 0.0f;
+        }
+
+        float dinnerCalories;
+        if (DinnerCaloriesStr != null && !TextUtils.isEmpty(DinnerCaloriesStr)) {
+            DinnerCaloriesStr = DinnerCaloriesStr.replaceAll("[^\\d.]", "");
+            dinnerCalories = Float.parseFloat(DinnerCaloriesStr);
+        } else {
+            // handle the case where DinnerCaloriesStr is null or empty
+            dinnerCalories = 0.0f;
+        }
+
+        float dinnerCarb;
+        if (DinnerCarbStr != null && !TextUtils.isEmpty(DinnerCarbStr)) {
+            DinnerCarbStr = DinnerCarbStr.replaceAll("[^\\d.]", "");
+            dinnerCarb = Float.parseFloat(DinnerCarbStr);
+        } else {
+            // handle the case where DinnerCarbStr is null or empty
+            dinnerCarb = 0.0f;
+        }
+
+        float dinnerProtein;
+        if (DinnerProteinStr != null && !TextUtils.isEmpty(DinnerProteinStr)) {
+            DinnerProteinStr = DinnerProteinStr.replaceAll("[^\\d.]", "");
+            dinnerProtein = Float.parseFloat(DinnerProteinStr);
+        } else {
+            // handle the case where DinnerProteinStr is null or empty
+            dinnerProtein = 0.0f;
+        }
+
+        float dinnerFat;
+        if (DinnerFatStr != null && !TextUtils.isEmpty(DinnerFatStr)) {
+            DinnerFatStr = DinnerFatStr.replaceAll("[^\\d.]", "");
+            dinnerFat = Float.parseFloat(DinnerFatStr);
+        } else {
+            // handle the case where DinnerFatStr is null or empty
+            dinnerFat = 0.0f;
+        }
 
         String dateCreated = DateUtils.getDateTime();
 
@@ -434,7 +562,7 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
                                 username,
                                 calories,
                                 latestData.goalCalories,
-                                carbs,
+                                carb,
                                 protein,
                                 fat,
                                 breakfastCalories,
