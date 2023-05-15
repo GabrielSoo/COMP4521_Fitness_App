@@ -22,5 +22,9 @@ public class CurrentUser {
     public String getUsername() {
         return username;
     }
+
+    public void clear() {
+        username = null;
+    }
 }
 

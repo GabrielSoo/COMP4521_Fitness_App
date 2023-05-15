@@ -35,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Spinner goalTypeSpinner;
     private Button saveButton;
     private TextView usernameText;
+    private Button logoutButton;
 
     WeightLogData latestData;
     private String gender, active;
@@ -59,6 +60,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         goalTypeSpinner = findViewById(R.id.goalTypeSpinner);
         usernameText = findViewById(R.id.usernameText);
         saveButton = findViewById(R.id.saveButton);
+        logoutButton = findViewById(R.id.logoutButton);
 
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
         mSpinnerRedirect.setOnItemSelectedListener(this);
@@ -198,6 +200,14 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 saveProfile();
             }
         });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform logout action
+                logout();
+            }
+        });
     }
 
     @Override
@@ -281,4 +291,17 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         // Show success message
         Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
     }
+
+    // Logout method
+    private void logout() {
+        // Clear the current user session or perform any other necessary logout actions
+
+        // For example, you can clear the CurrentUser instance and navigate back to the login activity
+        CurrentUser.getInstance().clear(); // Clear the current user instance
+
+        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish(); // Finish the profile activity to prevent going back to it when pressing the back button
+    }
+
 }
