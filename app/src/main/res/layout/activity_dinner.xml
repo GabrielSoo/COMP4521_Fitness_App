@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".nutritionActivity.DinnerActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/dinnerItem1"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/dinnerTextView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Barbecue Pork"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/dinnerButton1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
+
+            <TextView
+                android:id="@+id/dinner1Calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:text="606kCal"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner1Carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="50dp"
+                android:text="91g\nCarb"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner1Proteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="50dp"
+                android:text="16g\nProtein"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner1Fats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="210dp"
+                android:layout_marginTop="50dp"
+                android:text="24g\nFat"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dinnerItem2"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dinnerItem1">
+
+            <TextView
+                android:id="@+id/dinnerTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Fried Rice"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/dinnerButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
+
+            <TextView
+                android:id="@+id/dinner2Calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:text="680kCal"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner2Carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="50dp"
+                android:text="90g\nCarb"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner2Proteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="50dp"
+                android:text="25g\nProtein"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner2Fats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="210dp"
+                android:layout_marginTop="50dp"
+                android:text="25g\nFat"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dinnerItem3"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dinnerItem2">
+
+            <TextView
+                android:id="@+id/dinnerTextView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Baked Pork Rice"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/dinnerButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
+
+            <TextView
+                android:id="@+id/dinner3Calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:text="760kCal"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner3Carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="50dp"
+                android:text="80g\nCarb"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner3Proteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="50dp"
+                android:text="35g\nProtein"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner3Fats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="50dp"
+                android:text="30g\nFat"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dinnerItem4"
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dinnerItem3">
+
+            <TextView
+                android:id="@+id/dinnerTextView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Fried Noodles"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/dinnerButton4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:text="+ Add Item"
+                android:layout_marginTop="90dp" />
+
+            <TextView
+                android:id="@+id/dinner4Calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="50dp"
+                android:text="693kCal"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner4Carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="50dp"
+                android:text="63g\nCarb"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner4Proteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="50dp"
+                android:text="37g\nProtein"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+            <TextView
+                android:id="@+id/dinner4Fats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="210dp"
+                android:layout_marginTop="50dp"
+                android:text="27g\nFat"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/dinnerTextView" />
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

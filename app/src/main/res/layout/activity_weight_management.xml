@@ -24,13 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="60dp"
-        android:paddingHorizontal="16dp"
-        >
+        android:paddingHorizontal="16dp">
+
         <LinearLayout
             android:id="@+id/currentWeight"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/currentWeightTextView"
                 android:layout_width="wrap_content"
@@ -134,11 +134,13 @@
             android:layout_height="match_parent"
             android:layout_below="@id/progressText"
             android:orientation="vertical">
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id='@+id/weightChart'
-                    android:layout_width="match_parent"
-                    android:layout_height="320dp"
-                    android:layout_below="@id/progressText"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id='@+id/weightChart'
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_below="@id/progressText"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

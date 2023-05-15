@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="dinner1_calories">606</integer>
+    <integer name="dinner1_carbs">91</integer>
+    <integer name="dinner1_proteins">16</integer>
+    <integer name="dinner1_fats">24</integer>
+
+    <integer name="dinner2_calories">680</integer>
+    <integer name="dinner2_carbs">90</integer>
+    <integer name="dinner2_proteins">25</integer>
+    <integer name="dinner2_fats">25</integer>
+
+    <integer name="dinner3_calories">760</integer>
+    <integer name="dinner3_carbs">80</integer>
+    <integer name="dinner3_proteins">35</integer>
+    <integer name="dinner3_fats">30</integer>
+
+    <integer name="dinner4_calories">693</integer>
+    <integer name="dinner4_carbs">63</integer>
+    <integer name="dinner4_proteins">37</integer>
+    <integer name="dinner4_fats">27</integer>
+</resources>

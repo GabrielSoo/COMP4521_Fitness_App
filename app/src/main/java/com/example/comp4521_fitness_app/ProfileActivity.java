@@ -3,12 +3,16 @@ package com.example.comp4521_fitness_app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +37,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private TextView usernameText;
 
     WeightLogData latestData;
+    private String gender, active;
+    private int age;
+    private EditText ageEditText;
+    private float bmr, amr;
     private String username;
     private WeightLogDBHelper dbHelper;
     @Override
@@ -76,6 +84,101 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         } else {
             mSpinnerRedirect.setVisibility(View.GONE);
         }
+
+        SharedPreferences nSharedPreferences = getSharedPreferences("ProfileData" + username, MODE_PRIVATE);
+        // Load the values from SharedPreferences
+        age = nSharedPreferences.getInt("AGE", 0);
+        gender = nSharedPreferences.getString("GENDER", null);
+        active = nSharedPreferences.getString("ACTIVE", null);
+
+        ageEditText = findViewById(R.id.ageInput);
+        ageEditText.setText(Integer.toString(age));
+
+        RadioGroup genderGroup = findViewById(R.id.genderGroup);
+        if (gender != null) {
+            if (gender.equals("Male")) {
+                genderGroup.check(R.id.maleButton);
+            } else if (gender.equals("Female")) {
+                genderGroup.check(R.id.femaleButton);
+            }
+        }
+
+        RadioGroup activeGroup = findViewById(R.id.activeGroup);
+        if (active != null) {
+            if (active.equals("0")) {
+                activeGroup.check(R.id.activeButton1);
+            } else if (active.equals("1-2")) {
+                activeGroup.check(R.id.activeButton2);
+            } else if (active.equals("3-5")) {
+                activeGroup.check(R.id.activeButton3);
+            } else if (active.equals("6-7")) {
+                activeGroup.check(R.id.activeButton4);
+            }
+        }
+
+        genderGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedRadioButton = findViewById(checkedId);
+                gender = selectedRadioButton.getText().toString();
+
+                SharedPreferences nSharedPreferences = getSharedPreferences("ProfileData" + username, MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = nSharedPreferences.edit();
+                Log.d("MyApp", "Gender value before saving to SharedPreferences: " + gender);
+                editor.putString("GENDER", gender);
+                editor.apply();
+            }
+        });
+
+        activeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton selectedRadioButton = findViewById(checkedId);
+                active = selectedRadioButton.getText().toString();
+
+                SharedPreferences nSharedPreferences = getSharedPreferences("ProfileData" + username, MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = nSharedPreferences.edit();
+                editor.putString("ACTIVE", active);
+                editor.apply();
+            }
+        });
+
+        String heightStr = heightEditText.getText().toString();
+        String actualWeightStr = actualWeightEditText.getText().toString();
+
+        float height = Float.parseFloat(heightStr);
+        float actualWeight = Float.parseFloat(actualWeightStr);
+
+        String ageStr = ageEditText.getText().toString();
+        int age= Integer.parseInt(ageStr);
+
+        // Calculate BMR based on gender
+        if (gender != null && gender.equals("Male")) {
+            bmr = 66.47f + (13.75f * (float) actualWeight) + (5.003f * (float) height) - (6.755f * (float) age);
+        } else if (gender != null && gender.equals("Female")){
+            bmr = 655.1f + (9.563f * (float) actualWeight) + (1.85f * (float) height) - (4.676f * (float) age);
+        }
+
+        // Calculate AMR based on activity level
+        if (active != null && active.equals("0")) {
+            amr = bmr * 1.2f;
+        } else if (active != null && active.equals("1-2")) {
+            amr = bmr * 1.375f;
+        } else if (active != null && active.equals("3-5")) {
+            amr = bmr * 1.55f;
+        } else if (active != null && active.equals("6-7")) {
+            amr = bmr * 1.725f;
+        }
+
+        SharedPreferences.Editor editor = nSharedPreferences.edit();
+        Log.d("MyApp", "Gender value before saving to SharedPreferences: " + gender);
+        editor.putString("GENDER", gender);
+        editor.putString("ACTIVE", active);
+        editor.putInt("AGE", age);
+        editor.putFloat("GOAL_VALUE", amr);
+        editor.apply();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

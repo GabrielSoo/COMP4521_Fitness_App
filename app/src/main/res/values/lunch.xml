@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="lunch1_calories">606</integer>
+    <integer name="lunch1_carbs">91</integer>
+    <integer name="lunch1_proteins">16</integer>
+    <integer name="lunch1_fats">24</integer>
+
+    <integer name="lunch2_calories">680</integer>
+    <integer name="lunch2_carbs">90</integer>
+    <integer name="lunch2_proteins">25</integer>
+    <integer name="lunch2_fats">25</integer>
+
+    <integer name="lunch3_calories">760</integer>
+    <integer name="lunch3_carbs">80</integer>
+    <integer name="lunch3_proteins">35</integer>
+    <integer name="lunch3_fats">30</integer>
+
+    <integer name="lunch4_calories">693</integer>
+    <integer name="lunch4_carbs">63</integer>
+    <integer name="lunch4_proteins">37</integer>
+    <integer name="lunch4_fats">27</integer>
+</resources>
