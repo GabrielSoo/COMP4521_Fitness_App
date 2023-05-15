@@ -10,6 +10,8 @@ import android.widget.Spinner;
 
 import com.example.comp4521_fitness_app.R;
 
+import java.util.Arrays;
+
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner mSpinnerRedirect;
@@ -21,6 +23,11 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
         mSpinnerRedirect.setOnItemSelectedListener(this);
+
+        // Set the default selection to "Weight management"
+        String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
+        int homePageIndex = Arrays.asList(redirectOptions).indexOf("Home page");
+        mSpinnerRedirect.setSelection(homePageIndex);
     }
 
     @Override

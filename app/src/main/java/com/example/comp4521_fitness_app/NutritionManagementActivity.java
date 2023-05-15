@@ -462,7 +462,7 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         Intent intent;
 
         switch (redirectOption) {
-            case "Home Page":
+            case "Home page":
                 intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 break;

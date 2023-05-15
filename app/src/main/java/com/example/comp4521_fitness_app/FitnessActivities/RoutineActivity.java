@@ -45,6 +45,8 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         routineName = findViewById(R.id.routineName);
 
         dbHelper = new FitnessLogDBHelper(this);
+        mSpinnerRedirect.setOnItemSelectedListener(this);
+
         RoutineData routine = dbHelper.getRoutineById(CurrentRoutine.getInstance().getId());
         List<ExerciseData> exerciseDataList = dbHelper.getExercisesByIds(routine.exerciseIds);
         routineName.setText(routine.routineName);

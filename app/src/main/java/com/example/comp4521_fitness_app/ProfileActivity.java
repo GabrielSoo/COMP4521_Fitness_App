@@ -43,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private float bmr, amr;
     private String username;
     private WeightLogDBHelper dbHelper;
+    private SharedPreferences nSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,14 +87,22 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             mSpinnerRedirect.setVisibility(View.GONE);
         }
 
-        SharedPreferences nSharedPreferences = getSharedPreferences("ProfileData" + username, MODE_PRIVATE);
+        nSharedPreferences = getSharedPreferences("ProfileData" + username, MODE_PRIVATE);
         // Load the values from SharedPreferences
         age = nSharedPreferences.getInt("AGE", 0);
+        Log.d("Age", Integer.toString(age));
         gender = nSharedPreferences.getString("GENDER", null);
         active = nSharedPreferences.getString("ACTIVE", null);
 
         ageEditText = findViewById(R.id.ageInput);
-        ageEditText.setText(Integer.toString(age));
+
+        if (age != 0) {
+            ageEditText.setText(Integer.toString(age));
+        }
+        else {
+            ageEditText.setText("");
+        }
+
 
         RadioGroup genderGroup = findViewById(R.id.genderGroup);
         if (gender != null) {
@@ -148,11 +158,20 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         String heightStr = heightEditText.getText().toString();
         String actualWeightStr = actualWeightEditText.getText().toString();
 
-        float height = Float.parseFloat(heightStr);
-        float actualWeight = Float.parseFloat(actualWeightStr);
+        float height = 0;
+        if (!heightStr.isEmpty()) {
+            height = Float.parseFloat(heightStr);
+        }
+        float actualWeight = 0;
+        if (!actualWeightStr.isEmpty()) {
+            actualWeight = Float.parseFloat(actualWeightStr);
+        }
 
         String ageStr = ageEditText.getText().toString();
-        int age= Integer.parseInt(ageStr);
+
+        if (!ageStr.isEmpty()) {
+            age = Integer.parseInt(ageStr);
+        }
 
         // Calculate BMR based on gender
         if (gender != null && gender.equals("Male")) {
@@ -172,13 +191,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             amr = bmr * 1.725f;
         }
 
-        SharedPreferences.Editor editor = nSharedPreferences.edit();
-        Log.d("MyApp", "Gender value before saving to SharedPreferences: " + gender);
-        editor.putString("GENDER", gender);
-        editor.putString("ACTIVE", active);
-        editor.putInt("AGE", age);
-        editor.putFloat("GOAL_VALUE", amr);
-        editor.apply();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,7 +206,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         Intent intent;
 
         switch (redirectOption) {
-            case "Home Page":
+            case "Home page":
                 intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
                 break;
@@ -206,7 +218,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 intent = new Intent(this, FitnessManagementActivity.class);
                 startActivity(intent);
                 break;
-            case "Nutrition Management":
+            case "Nutrition management":
                 intent = new Intent(this, NutritionManagementActivity.class);
                 startActivity(intent);
                 break;
@@ -221,6 +233,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     private void saveProfile() {
         // Get input values
+        int previousAge;
+        String ageStr = ageEditText.getText().toString();
         String heightStr = heightEditText.getText().toString();
         String actualWeightStr = actualWeightEditText.getText().toString();
         String goalWeightStr = goalWeightEditText.getText().toString();
@@ -228,10 +242,20 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
         // Check if all input values are filled
         if (TextUtils.isEmpty(heightStr) || TextUtils.isEmpty(actualWeightStr)
-                || TextUtils.isEmpty(goalWeightStr)) {
+                || TextUtils.isEmpty(goalWeightStr) || TextUtils.isEmpty(ageStr)) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
+        } else {
+            previousAge = age;
+            age = Integer.parseInt(ageStr);
         }
+
+        SharedPreferences.Editor editor = nSharedPreferences.edit();
+        editor.putString("GENDER", gender);
+        editor.putString("ACTIVE", active);
+        editor.putFloat("GOAL_VALUE", amr);
+        editor.apply();
+
 
         float height = Float.parseFloat(heightStr);
         float actualWeight = Float.parseFloat(actualWeightStr);
@@ -240,15 +264,19 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         // Get the current date and time
         String dateCreated = DateUtils.getDateTime();
 
-        // Save data to database
+        // Check if data has changed
         WeightLogData data = new WeightLogData(-1, username, height, weightGoalType, actualWeight, goalWeight, dateCreated);
         if (latestData != null){
-            if (data.actualWeight == latestData.actualWeight && data.goalWeight == latestData.goalWeight && data.weightGoalType.equals(latestData.weightGoalType) && data.height == latestData.height) {
+            if (data.actualWeight == latestData.actualWeight && data.goalWeight == latestData.goalWeight && data.weightGoalType.equals(latestData.weightGoalType) && data.height == latestData.height && previousAge == age) {
                 return;
             }
         }
 
+        // Update db and shared
         dbHelper.insertWeightLogData(data);
+        editor = nSharedPreferences.edit();
+        editor.putInt("AGE", age);
+        editor.apply();
 
         if (mSpinnerRedirect.getVisibility() == View.GONE) {
             mSpinnerRedirect.setVisibility(View.VISIBLE);

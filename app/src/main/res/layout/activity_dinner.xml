@@ -236,7 +236,7 @@
                 android:id="@+id/dinner3Fats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="110dp"
+                android:layout_marginStart="210dp"
                 android:layout_marginTop="50dp"
                 android:text="30g\nFat"
                 android:textAlignment="center"
