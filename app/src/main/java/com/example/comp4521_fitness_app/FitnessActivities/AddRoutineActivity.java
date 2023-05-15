@@ -110,10 +110,12 @@ public class AddRoutineActivity extends AppCompatActivity implements AdapterView
 
     private class ExerciseAdapter extends ArrayAdapter<ExerciseData> {
         private LayoutInflater inflater;
+        private boolean[] checkedStates;  // Array to store the checked states
 
         public ExerciseAdapter(Context context, List<ExerciseData> exercises) {
             super(context, R.layout.list_item_exercise, exercises);
             inflater = LayoutInflater.from(context);
+            checkedStates = new boolean[exercises.size()];  // Initialize the checkedStates array
         }
 
         @NonNull
@@ -133,7 +135,14 @@ public class AddRoutineActivity extends AppCompatActivity implements AdapterView
 
             final ExerciseData exercise = getItem(position);
 
+            holder.checkBoxExercise.setOnCheckedChangeListener(null);  // Remove previous listener to avoid interference
             holder.checkBoxExercise.setChecked(selectedExercises.contains(exercise));
+
+            // Reset the state of the checkbox when it is unchecked
+            if (!selectedExercises.contains(exercise)) {
+                holder.checkBoxExercise.setChecked(false);
+            }
+
             holder.checkBoxExercise.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -155,6 +164,7 @@ public class AddRoutineActivity extends AppCompatActivity implements AdapterView
             TextView textViewExerciseName;
         }
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
