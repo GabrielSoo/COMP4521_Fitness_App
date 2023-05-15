@@ -98,16 +98,12 @@ public class LogRoutineActivity extends AppCompatActivity {
                 EditText editWeight = convertView.findViewById(R.id.edit_weight);
 
                 textExerciseName.setText(exercise.exerciseName);
-                // Set values for sets, reps, and weight EditText fields
-                // ...
 
             } else if (exercise.exerciseType.equals("cardio")) {
                 TextView textExerciseName = convertView.findViewById(R.id.text_exercise_name_cardio);
                 EditText editCaloriesBurned = convertView.findViewById(R.id.edit_calories_burned);
 
                 textExerciseName.setText(exercise.exerciseName);
-                // Set value for calories burned EditText field
-                // ...
             }
 
             return convertView;

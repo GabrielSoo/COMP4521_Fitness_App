@@ -431,4 +431,26 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         return rowCount;
     }
 
+    public ExerciseData getExerciseById(int exerciseId) {
+        ExerciseData exercise = null;
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = {COLUMN_EXERCISE_ID, COLUMN_EXERCISE_NAME, COLUMN_EXERCISE_TYPE};
+        String selection = COLUMN_EXERCISE_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(exerciseId)};
+        Cursor cursor = db.query(TABLE_EXERCISE, columns, selection, selectionArgs, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            String exerciseName = cursor.getString(cursor.getColumnIndex(COLUMN_EXERCISE_NAME));
+            String exerciseType = cursor.getString(cursor.getColumnIndex(COLUMN_EXERCISE_TYPE));
+
+            exercise = new ExerciseData(exerciseId, exerciseName, exerciseType);
+        }
+
+        cursor.close();
+        db.close();
+
+        return exercise;
+    }
+
 }

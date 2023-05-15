@@ -253,6 +253,7 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
 
             // Set the LineData to the LineChart
             lineChart.setData(lineData);
+            lineChart.getDescription().setEnabled(false);
 
             // Target Weight
             LimitLine targetLine = new LimitLine(targetWeight, "Target");

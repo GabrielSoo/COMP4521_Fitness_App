@@ -16,6 +16,7 @@ import com.example.comp4521_fitness_app.NutritionManagementActivity;
 import com.example.comp4521_fitness_app.ProfileActivity;
 import com.example.comp4521_fitness_app.R;
 import com.example.comp4521_fitness_app.WeightManagementActivity;
+import com.example.comp4521_fitness_app.data.CurrentExercise;
 import com.example.comp4521_fitness_app.data.CurrentRoutine;
 import com.example.comp4521_fitness_app.database.fitnessLog.ExerciseData;
 import com.example.comp4521_fitness_app.database.fitnessLog.FitnessLogDBHelper;
@@ -69,6 +70,29 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View v) {
                 Intent intent = new Intent(RoutineActivity.this, LogRoutineActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Inside the onCreate method
+
+        listViewExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ExerciseData exerciseData = exerciseDataList.get(position);
+                int exerciseId = exerciseData.exerciseId;
+                String exerciseType = exerciseData.exerciseType;
+
+                // Set the exerciseId in the CurrentExercise singleton
+                CurrentExercise.getInstance().setExerciseId(exerciseId);
+
+                // Navigate to the appropriate activity based on the exercise type
+                if (exerciseType.equals("cardio")) {
+                    Intent intent = new Intent(RoutineActivity.this, CardioActivity.class);
+                    startActivity(intent);
+                } else if (exerciseType.equals("weights")) {
+                    Intent intent = new Intent(RoutineActivity.this, WeightsActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
