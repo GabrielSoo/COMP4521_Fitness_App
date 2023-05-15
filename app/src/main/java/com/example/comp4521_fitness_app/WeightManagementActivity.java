@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class WeightManagementActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -128,7 +129,7 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
                 "WeightManagementActivity",  // Activity
                 "Weight Log Reminder",  // Title
                 "Please log your weight.",  // Description
-                7  // Interval (in days)
+                TimeUnit.DAYS.toSeconds(7) // Interval (in seconds)
         );
 
         updateUI();

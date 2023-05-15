@@ -18,7 +18,6 @@ import com.example.comp4521_fitness_app.data.CurrentUser;
 import com.example.comp4521_fitness_app.nutritionActivity.BreakfastActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.DinnerActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.LunchActivity;
-import com.example.comp4521_fitness_app.utilities.Notification;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -56,7 +55,6 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
     private DateFormat dateFormat;
     private String username;
     private SharedPreferences mSharedPreferences, nSharedPreferences;
-    Notification notification;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +67,6 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
         int nutritionManagementIndex = Arrays.asList(redirectOptions).indexOf("Nutrition management");
         mSpinnerRedirect.setSelection(nutritionManagementIndex);
-
-        notification = new Notification(
-                this,  // Context
-                "NutritionManagementActivity",  // Activity
-                "Nutrition Log Reminder",  // Title
-                "Please log your nutrition.",  // Description
-                1  // Interval (in days)
-        );
 
         // Get the username from the previous activity
         username = CurrentUser.getInstance().getUsername();
@@ -514,11 +504,13 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         // Set the data
         LineDataSet goalCaloriesDataSet = new LineDataSet(goalEntries, "Goal Calories");
         goalCaloriesDataSet.setColor(Color.RED);
-        goalCaloriesDataSet.setCircleColor(Color.RED);
+        goalCaloriesDataSet.setDrawCircles(false); // Remove circles
+        goalCaloriesDataSet.setDrawValues(false); // Remove labels
 
         LineDataSet actualCaloriesDataSet = new LineDataSet(actualEntries, "Actual Calories");
         actualCaloriesDataSet.setColor(Color.BLUE);
         actualCaloriesDataSet.setCircleColor(Color.BLUE);
+        actualCaloriesDataSet.setDrawValues(false); // Remove labels
 
         LineData lineData = new LineData(goalCaloriesDataSet, actualCaloriesDataSet);
 

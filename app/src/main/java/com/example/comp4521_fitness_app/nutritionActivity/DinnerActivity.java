@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.comp4521_fitness_app.NutritionManagementActivity;
 import com.example.comp4521_fitness_app.R;
+import com.example.comp4521_fitness_app.utilities.NutritionNotification;
 
 public class DinnerActivity extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class DinnerActivity extends AppCompatActivity {
                 intent.putExtra("DINNER_CARBS", dinnerCarbs);
                 intent.putExtra("DINNER_PROTEINS", dinnerProteins);
                 intent.putExtra("DINNER_FATS", dinnerFats);
+                notification();
                 startActivity(intent);
             }
         });
@@ -53,6 +55,7 @@ public class DinnerActivity extends AppCompatActivity {
                 intent.putExtra("DINNER_CARBS", dinnerCarbs);
                 intent.putExtra("DINNER_PROTEINS", dinnerProteins);
                 intent.putExtra("DINNER_FATS", dinnerFats);
+                notification();
                 startActivity(intent);
             }
         });
@@ -70,6 +73,7 @@ public class DinnerActivity extends AppCompatActivity {
                 intent.putExtra("DINNER_CARBS", dinnerCarbs);
                 intent.putExtra("DINNER_PROTEINS", dinnerProteins);
                 intent.putExtra("DINNER_FATS", dinnerFats);
+                notification();
                 startActivity(intent);
             }
         });
@@ -87,8 +91,14 @@ public class DinnerActivity extends AppCompatActivity {
                 intent.putExtra("DINNER_CARBS", dinnerCarbs);
                 intent.putExtra("DINNER_PROTEINS", dinnerProteins);
                 intent.putExtra("DINNER_FATS", dinnerFats);
+                notification();
                 startActivity(intent);
             }
         });
+    }
+
+    private void notification(){
+        NutritionNotification.cancelNotification();
+        NutritionNotification.startNotification(this);
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.comp4521_fitness_app.NutritionManagementActivity;
 import com.example.comp4521_fitness_app.R;
+import com.example.comp4521_fitness_app.utilities.NutritionNotification;
 
 public class BreakfastActivity extends AppCompatActivity {
 

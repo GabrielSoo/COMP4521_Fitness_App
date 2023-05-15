@@ -14,16 +14,16 @@ public class Notification {
     private final String activity;
     private final String title;
     private final String description;
-    private final long intervalInDays;
+    private final long intervalInSeconds;
     private final NotificationManChannelConfig config;
-    private final NotificationMan.Builder builder;
+    private NotificationMan.Builder builder;
 
-    public Notification(Context context, String activity, String title, String description, long intervalInDays) {
+    public Notification(Context context, String activity, String title, String description, long intervalInSeconds) {
         this.context = context;
         this.activity = "com.example.comp4521_fitness_app." + activity;
         this.title = title;
         this.description = description;
-        this.intervalInDays = intervalInDays;
+        this.intervalInSeconds = intervalInSeconds;
 
         this.config = new NotificationManChannelConfig(
                 null,
@@ -32,11 +32,9 @@ public class Notification {
                 true
         );
 
-        long intervalInSeconds = TimeUnit.DAYS.toSeconds(intervalInDays);
-
         this.builder = new NotificationMan.Builder(
                 context,
-                activity,
+                this.activity,
                 title,
                 description,
                 "",
@@ -44,6 +42,10 @@ public class Notification {
                 NotificationTypes.TEXT.getType(),
                 config
         );
+    }
+
+    public void cancelNotifiation() {
+        builder = null;
     }
 
     public void fire() {
