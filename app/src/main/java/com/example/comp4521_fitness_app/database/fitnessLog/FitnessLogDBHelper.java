@@ -453,4 +453,19 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         return exercise;
     }
 
+    public void deleteRoutineById(int routineId) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Delete from ROUTINE table
+        String deleteRoutineQuery = "DELETE FROM " + TABLE_ROUTINE +
+                " WHERE " + COLUMN_ROUTINE_ID + " = " + routineId;
+        db.execSQL(deleteRoutineQuery);
+
+        // Delete from EXERCISE_ROUTINE table
+        String deleteExerciseRoutineQuery = "DELETE FROM " + TABLE_EXERCISE_ROUTINE +
+                " WHERE " + COLUMN_ROUTINE_ID + " = " + routineId;
+        db.execSQL(deleteExerciseRoutineQuery);
+
+        db.close();
+    }
 }

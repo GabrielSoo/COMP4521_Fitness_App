@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.comp4521_fitness_app.FitnessManagementActivity;
 import com.example.comp4521_fitness_app.NutritionManagementActivity;
 import com.example.comp4521_fitness_app.ProfileActivity;
 import com.example.comp4521_fitness_app.R;
@@ -33,6 +34,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     private ArrayAdapter<String> exercisesAdapter;
     private TextView routineName;
     private Button logBtn;
+    private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         listViewExercises = findViewById(R.id.list_exercises);
         routineName = findViewById(R.id.routineName);
         logBtn = findViewById(R.id.btn_log_routines);
+        deleteButton = findViewById(R.id.btn_delete_routine);
 
         dbHelper = new FitnessLogDBHelper(this);
         mSpinnerRedirect.setOnItemSelectedListener(this);
@@ -73,7 +76,13 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        // Inside the onCreate method
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the deleteRoutine() function to delete the routine
+                deleteRoutine();
+            }
+        });
 
         listViewExercises.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,5 +130,18 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void deleteRoutine() {
+        // Retrieve the routine ID or any other necessary information to identify the routine to delete
+
+        // Call the deleteRoutineById() method from your FitnessLogDBHelper to delete the routine
+        FitnessLogDBHelper dbHelper = new FitnessLogDBHelper(this);
+        dbHelper.deleteRoutineById(CurrentRoutine.getInstance().getId());
+
+        // Route back to the FitnessManagementActivity
+        Intent intent = new Intent(RoutineActivity.this, FitnessManagementActivity.class);
+        startActivity(intent);
+        finish(); // Optional: Close the current activity to prevent going back to it using the back button
     }
 }
