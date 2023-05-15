@@ -62,9 +62,9 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         String CREATE_ACTIVITY_LOG_TABLE = "CREATE TABLE " + TABLE_ACTIVITY_LOG + "("
                 + COLUMN_LOG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USERNAME + " TEXT,"
-                + COLUMN_EXERCISE_ROUTINE_ID + " INTEGER,"
+                + COLUMN_ROUTINE_ID + " INTEGER,"
                 + COLUMN_DATE_CREATED + " TEXT,"
-                + "FOREIGN KEY(" + COLUMN_EXERCISE_ROUTINE_ID + ") REFERENCES " + TABLE_EXERCISE_ROUTINE + "(" + COLUMN_EXERCISE_ROUTINE_ID + ")"
+                + "FOREIGN KEY(" + COLUMN_ROUTINE_ID + ") REFERENCES " + TABLE_ROUTINE + "(" + COLUMN_ROUTINE_ID + ")"
                 + ")";
         db.execSQL(CREATE_ACTIVITY_LOG_TABLE);
 
@@ -318,11 +318,14 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
         return exercises;
     }
 
-    public void logActivity(ExerciseSetData[] exerciseSetDataArray) {
+    public void logRoutine(int routineId, ExerciseSetData[] exerciseSetDataArray) {
         SQLiteDatabase db = getWritableDatabase();
+
+        // Insert activity log entry
         ContentValues activityLogValues = new ContentValues();
         activityLogValues.put(COLUMN_USERNAME, currentUser);
-        activityLogValues.put(COLUMN_DATE_CREATED, DateUtils.getDateTime()); // Define getCurrentDateTime() method to get the current date and time
+        activityLogValues.put(COLUMN_ROUTINE_ID, routineId);
+        activityLogValues.put(COLUMN_DATE_CREATED, DateUtils.getDateTime());
         long logId = db.insert(TABLE_ACTIVITY_LOG, null, activityLogValues);
 
         if (logId != -1) { // Check if activity log data was inserted successfully
@@ -340,6 +343,53 @@ public class FitnessLogDBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    public List<ExerciseSetData> queryExerciseLogsByExerciseId(int exerciseId) {
+        List<ExerciseSetData> exerciseLogs = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = {
+                TABLE_EXERCISE_SET + "." + COLUMN_LOG_ID,
+                COLUMN_EXERCISE_ID,
+                COLUMN_SETS,
+                COLUMN_REPS,
+                COLUMN_WEIGHT,
+                COLUMN_CALORIES_BURNED,
+                COLUMN_DATE_CREATED
+        };
+
+        String selection = TABLE_EXERCISE_SET + "." + COLUMN_EXERCISE_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(exerciseId)};
+        String orderBy = COLUMN_DATE_CREATED + " ASC";
+
+        String joinTable = TABLE_EXERCISE_SET + " INNER JOIN " + TABLE_ACTIVITY_LOG +
+                " ON " + TABLE_EXERCISE_SET + "." + COLUMN_LOG_ID + " = " +
+                TABLE_ACTIVITY_LOG + "." + COLUMN_LOG_ID;
+
+        Cursor cursor = db.query(joinTable, columns, selection, selectionArgs, null, null, orderBy);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int logId = cursor.getInt(cursor.getColumnIndex(COLUMN_LOG_ID));
+                int sets = cursor.getInt(cursor.getColumnIndex(COLUMN_SETS));
+                int reps = cursor.getInt(cursor.getColumnIndex(COLUMN_REPS));
+                int weight = cursor.getInt(cursor.getColumnIndex(COLUMN_WEIGHT));
+                int caloriesBurned = cursor.getInt(cursor.getColumnIndex(COLUMN_CALORIES_BURNED));
+                String dateCreated = cursor.getString(cursor.getColumnIndex(COLUMN_DATE_CREATED));
+
+                ExerciseSetData exerciseSetData = new ExerciseSetData(-1, logId, exerciseId, sets, reps, weight, caloriesBurned);
+                exerciseSetData.setDateCreated(dateCreated);
+                exerciseLogs.add(exerciseSetData);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return exerciseLogs;
+    }
+
+
     public List<ExerciseData> getAllExercises() {
         List<ExerciseData> exercises = new ArrayList<>();
 

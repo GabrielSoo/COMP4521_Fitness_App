@@ -4,12 +4,13 @@ public class ExerciseSetData {
     public int exerciseSetId;
     public int logId;
     public int exerciseId;
-    public int sets;
-    public int reps;
-    public int weight;
-    public int caloriesBurned;
+    public Integer sets;
+    public Integer reps;
+    public Integer weight;
+    public Integer caloriesBurned;
+    public String dateCreated;
 
-    public ExerciseSetData(int exerciseSetId, int logId, int exerciseId, int sets, int reps, int weight, int caloriesBurned) {
+    public ExerciseSetData(int exerciseSetId, int logId, int exerciseId, Integer sets, Integer reps, Integer weight, Integer caloriesBurned) {
         this.exerciseSetId = exerciseSetId;
         this.logId = logId;
         this.exerciseId = exerciseId;
@@ -17,5 +18,10 @@ public class ExerciseSetData {
         this.reps = reps;
         this.weight = weight;
         this.caloriesBurned = caloriesBurned;
+        dateCreated = null;
+    }
+
+    public void setDateCreated(String date) {
+        this.dateCreated = date;
     }
 }

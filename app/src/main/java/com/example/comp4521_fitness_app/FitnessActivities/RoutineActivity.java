@@ -41,6 +41,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         mSpinnerRedirect = findViewById(R.id.spinner_redirect);
         listViewExercises = findViewById(R.id.list_exercises);
         routineName = findViewById(R.id.routineName);
+        logBtn = findViewById(R.id.btn_log_routines);
 
         dbHelper = new FitnessLogDBHelper(this);
         mSpinnerRedirect.setOnItemSelectedListener(this);
@@ -60,9 +61,16 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
         // Set the default selection to "Weight management"
         String[] redirectOptions = getResources().getStringArray(R.array.redirect_options);
-        int weightManagementIndex = Arrays.asList(redirectOptions).indexOf("Fitness management");
-        mSpinnerRedirect.setSelection(weightManagementIndex);
+        int fitnessManagementIndex = Arrays.asList(redirectOptions).indexOf("Fitness management");
+        mSpinnerRedirect.setSelection(fitnessManagementIndex);
 
+        logBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RoutineActivity.this, LogRoutineActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
