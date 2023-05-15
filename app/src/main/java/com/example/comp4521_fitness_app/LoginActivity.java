@@ -11,12 +11,15 @@ import android.widget.Toast;
 
 import com.example.comp4521_fitness_app.data.CurrentUser;
 import com.example.comp4521_fitness_app.database.DBHelper;
+import com.example.comp4521_fitness_app.database.weightLog.WeightLogDBHelper;
+import com.example.comp4521_fitness_app.database.weightLog.WeightLogData;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText username, password;
     Button btnlogin;
     DBHelper DB;
+    WeightLogDBHelper WeightLogDB;
     // declare the CurrentUser instance
     private CurrentUser currentUser;
 
@@ -32,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password1);
         btnlogin = (Button) findViewById(R.id.btnsignin1);
         DB = new DBHelper(this);
+        WeightLogDB = new WeightLogDBHelper(this);
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +54,14 @@ public class LoginActivity extends AppCompatActivity {
                         currentUser.setUsername(user);
 
                         Toast.makeText(LoginActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        WeightLogData latest = WeightLogDB.getLatestWeightLogData(user);
+                        Intent intent;
+                        if (latest == null) {
+                            intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        }
+                        else {
+                            intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        }
                         startActivity(intent);
                     }
                     else {

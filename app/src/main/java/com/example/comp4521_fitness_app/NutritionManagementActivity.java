@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comp4521_fitness_app.data.CurrentUser;
 import com.example.comp4521_fitness_app.nutritionActivity.BreakfastActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.DinnerActivity;
 import com.example.comp4521_fitness_app.nutritionActivity.LunchActivity;
@@ -52,8 +53,8 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
     private TextView currentDate;
     private String Date;
     private DateFormat dateFormat;
-
-    private SharedPreferences mSharedPreferences;
+    private String username;
+    private SharedPreferences mSharedPreferences, nSharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +68,12 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         int nutritionManagementIndex = Arrays.asList(redirectOptions).indexOf("Nutrition management");
         mSpinnerRedirect.setSelection(nutritionManagementIndex);
 
+        // Get the username from the previous activity
+        username = CurrentUser.getInstance().getUsername();
+
         // Initialize SharedPreferences
-        mSharedPreferences = getSharedPreferences("NutritionData", MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences("NutritionData" + username, MODE_PRIVATE);
+        nSharedPreferences = getSharedPreferences("ProfileData" + username, MODE_PRIVATE);
 
         // Uncomment to reset log for testing
         //mSharedPreferences.edit().clear().apply();
@@ -82,7 +87,7 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
 
         // Get the saved nutrition data from SharedPreferences
         mCaloriesValue = mSharedPreferences.getFloat(Date + "CALORIES_VALUE", 0);
-        mGoalValue = mSharedPreferences.getFloat(Date + "GOAL_VALUE", 0);
+        mGoalValue = nSharedPreferences.getFloat("GOAL_VALUE", 0);
         mCarbsValue = mSharedPreferences.getFloat(Date + "CARBS_VALUE", 0);
         mProteinValue = mSharedPreferences.getFloat(Date + "PROTEIN_VALUE", 0);
         mFatValue = mSharedPreferences.getFloat(Date + "FAT_VALUE", 0);
@@ -184,7 +189,6 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         // Save the updated nutrition data to SharedPreferences
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putFloat(Date + "CALORIES_VALUE", mCaloriesValue);
-        editor.putFloat(Date + "GOAL_VALUE", mGoalValue);
         editor.putFloat(Date + "CARBS_VALUE", mCarbsValue);
         editor.putFloat(Date + "PROTEIN_VALUE", mProteinValue);
         editor.putFloat(Date + "FAT_VALUE", mFatValue);
@@ -290,7 +294,6 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
 
                 // Retrieve the nutrition data for the new date from SharedPreferences
                 mCaloriesValue = mSharedPreferences.getFloat(Date + "CALORIES_VALUE", 0);
-                mGoalValue = mSharedPreferences.getFloat(Date + "GOAL_VALUE", 0);
                 mCarbsValue = mSharedPreferences.getFloat(Date + "CARBS_VALUE", 0);
                 mProteinValue = mSharedPreferences.getFloat(Date + "PROTEIN_VALUE", 0);
                 mFatValue = mSharedPreferences.getFloat(Date + "FAT_VALUE", 0);
@@ -375,7 +378,6 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
 
                 // Retrieve the nutrition data for the new date from SharedPreferences
                 mCaloriesValue = mSharedPreferences.getFloat(Date + "CALORIES_VALUE", 0);
-                mGoalValue = mSharedPreferences.getFloat(Date + "GOAL_VALUE", 0);
                 mCarbsValue = mSharedPreferences.getFloat(Date + "CARBS_VALUE", 0);
                 mProteinValue = mSharedPreferences.getFloat(Date + "PROTEIN_VALUE", 0);
                 mFatValue = mSharedPreferences.getFloat(Date + "FAT_VALUE", 0);
@@ -486,7 +488,7 @@ public class NutritionManagementActivity extends AppCompatActivity implements Ad
         ArrayList<Entry> actualEntries = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             String date = dateFormat.format(startDate);
-            float goalCalories = mSharedPreferences.getFloat(date + "GOAL_VALUE", 0);
+            float goalCalories = nSharedPreferences.getFloat("GOAL_VALUE", 0);
             float actualCalories = mSharedPreferences.getFloat(date + "CALORIES_VALUE", 0);
             goalEntries.add(new Entry(i, goalCalories));
             actualEntries.add(new Entry(i, actualCalories));
