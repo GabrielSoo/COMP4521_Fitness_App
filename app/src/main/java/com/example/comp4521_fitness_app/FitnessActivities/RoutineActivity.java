@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.comp4521_fitness_app.HomeActivity;
 import com.example.comp4521_fitness_app.NutritionManagementActivity;
 import com.example.comp4521_fitness_app.ProfileActivity;
 import com.example.comp4521_fitness_app.R;
@@ -73,10 +71,6 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         Intent intent;
 
         switch (redirectOption) {
-            case "Home page":
-                intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                break;
             case "Nutrition management":
                 intent = new Intent(this, NutritionManagementActivity.class);
                 startActivity(intent);

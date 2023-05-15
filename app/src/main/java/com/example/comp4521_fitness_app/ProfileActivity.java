@@ -206,10 +206,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         Intent intent;
 
         switch (redirectOption) {
-            case "Home page":
-                intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                break;
             case "Weight management":
                 intent = new Intent(this, WeightManagementActivity.class);
                 startActivity(intent);

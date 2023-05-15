@@ -56,12 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Sign-in successful", Toast.LENGTH_SHORT).show();
                         WeightLogData latest = WeightLogDB.getLatestWeightLogData(user);
                         Intent intent;
-                        if (latest == null) {
-                            intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                        }
-                        else {
-                            intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        }
+                        intent = new Intent(getApplicationContext(), ProfileActivity.class);
                         startActivity(intent);
                     }
                     else {

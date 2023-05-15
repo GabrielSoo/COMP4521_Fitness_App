@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp4521_fitness_app.FitnessManagementActivity;
-import com.example.comp4521_fitness_app.HomeActivity;
 import com.example.comp4521_fitness_app.NutritionManagementActivity;
 import com.example.comp4521_fitness_app.ProfileActivity;
 import com.example.comp4521_fitness_app.R;
@@ -163,10 +162,6 @@ public class AddRoutineActivity extends AppCompatActivity implements AdapterView
         Intent intent;
 
         switch (redirectOption) {
-            case "Home page":
-                intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                break;
             case "Nutrition management":
                 intent = new Intent(this, NutritionManagementActivity.class);
                 startActivity(intent);

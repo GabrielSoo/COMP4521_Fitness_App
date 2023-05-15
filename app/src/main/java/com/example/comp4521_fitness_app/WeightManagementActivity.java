@@ -148,10 +148,6 @@ public class WeightManagementActivity extends AppCompatActivity implements Adapt
         Intent intent;
 
         switch (redirectOption) {
-            case "Home page":
-                intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                break;
             case "Nutrition management":
                 intent = new Intent(this, NutritionManagementActivity.class);
                 startActivity(intent);
